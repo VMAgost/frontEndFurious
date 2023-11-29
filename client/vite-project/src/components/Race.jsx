@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const trackLength = 1200;
 
@@ -7,7 +8,7 @@ const Race = () => {
   const [randomCarIndex, setRandomCarIndex] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:4000/cars')
+    fetch('http://localhost:4000/api/cars')
       .then((res) => res.json())
       .then((data) => setCars(data))
       .catch((err) => console.error('Error: ', err));
@@ -22,7 +23,7 @@ const Race = () => {
 
   function raceCars() {
     if (cars.length < 2) {
-      console.error('Not enough cars to race.');
+      console.log('Loading cars...');
       return;
     }
 
@@ -35,18 +36,23 @@ const Race = () => {
     const timeToFinishAICar = (trackLength / AICar.acceleration) ** 0.5;
     const timeToFinishRandomCar = (trackLength / randomCar.acceleration) ** 0.5;
 
-    let winner = null;
     if (timeToFinishAICar > timeToFinishRandomCar) {
-      winner = randomCar;
+      return (`winner is PLAYER: ${randomCar.manufacturer}, winner time is: ${timeToFinishRandomCar}`)
     } else if (timeToFinishAICar < timeToFinishRandomCar) {
-      winner = AICar;
+      return (`winner is AI: ${AICar.manufacturer}, winner time is: ${timeToFinishAICar}`)
     } else {
-      winner = 'It\'s a tie!';
+      return (`its a tie`)
     }
 
-    console.log('Winner is: ', winner.manufacturer);
   }
-  raceCars()
+  // raceCars()
+
+  return (
+    <div>
+      {raceCars()}
+    <Link to={'/api/garage'}><button>Garage</button></Link>
+    </div>
+  )
 }
 
 export default Race;
