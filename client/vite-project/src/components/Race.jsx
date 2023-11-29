@@ -1,53 +1,64 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-const trackLength = 1200;
 
 const Race = () => {
+  const trackLength = 1200;
   const [cars, setCars] = useState([]);
-  const [randomCarIndex, setRandomCarIndex] = useState(0);
+
 
   useEffect(() => {
-    fetch('http://localhost:4000/cars')
+    fetch('http://localhost:4000/api/cars')
       .then((res) => res.json())
       .then((data) => setCars(data))
       .catch((err) => console.error('Error: ', err));
   }, []);
 
-  useEffect(() => {
-    const randomIndex = Math.ceil(Math.random() * 3);
-    setRandomCarIndex(randomIndex);
-  }, []);
 
   console.log(cars);
 
   function raceCars() {
     if (cars.length < 2) {
-      console.error('Not enough cars to race.');
+      console.log('Loading cars...');
       return;
     }
 
     const fixedCarIndex = 0;
-    const randomCarIndex = 1 + Math.floor(Math.random() * 3);
-
+    const randomIndex = Math.floor(Math.random() * cars.length);
+    if (randomIndex === 0) {
+      randomIndex + 1;
+    }
+    console.log(randomIndex)
     const AICar = cars[fixedCarIndex];
-    const randomCar = cars[randomCarIndex];
+    const randomCar = cars[randomIndex];
+    console.log(randomCar)
+    const aiAcceleration = ((AICar.top_speed * 1000) / 3600) / AICar.acceleration;
+    const randomAcceleration = ((randomCar.top_speed * 1000) / 3600) / randomCar.acceleration;
+  
+    const timeToFinishAICar = Math.sqrt(2 * trackLength / aiAcceleration)
+    const timeToFinishRandomCar = Math.sqrt(2 * trackLength / randomAcceleration)
+    console.log('AI', timeToFinishAICar)
+    console.log('Player', timeToFinishRandomCar)
 
-    const timeToFinishAICar = (trackLength / AICar.acceleration) ** 0.5;
-    const timeToFinishRandomCar = (trackLength / randomCar.acceleration) ** 0.5;
-
-    let winner = null;
     if (timeToFinishAICar > timeToFinishRandomCar) {
-      winner = randomCar;
+      return (`winner is PLAYER: ${randomCar.manufacturer}, winner time is: ${timeToFinishRandomCar}`)
     } else if (timeToFinishAICar < timeToFinishRandomCar) {
-      winner = AICar;
+      return (`winner is AI: ${AICar.manufacturer}, winner time is: ${timeToFinishAICar}`)
     } else {
-      winner = 'It\'s a tie!';
+      return (`its a tie`)
     }
 
-    console.log('Winner is: ', winner.manufacturer);
   }
-  raceCars()
+  // raceCars()
+
+  return (
+    <div>
+      {raceCars()}
+      <Link to={'/api/garage'}><button>Garage</button></Link>
+    </div>
+  )
 }
 
 export default Race;
+
 
