@@ -5,6 +5,7 @@ import Race from './components/Race';
 import { useState, useEffect } from 'react'
 import './App.css'
 import Allcars from './components/Allcars';
+import { Link } from 'react-router-dom';
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
 const [allCars, setAllCars] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:4000/cars')
+    fetch('http://localhost:4000/api/cars')
       .then((res) => res.json())
       .then((data) => setAllCars(data))
       .catch((err) => console.error('Error: ', err));
@@ -21,11 +22,11 @@ const [allCars, setAllCars] = useState([])
 
 
 
-
   return (
     <>
       <div>
-        {allCars && <Allcars allcars={allCars} />}
+        <Allcars allcars={allCars} />
+        <Link to={'/api/garage'}><button>Garage</button></Link>
       </div>
     </>
   );
