@@ -17,7 +17,7 @@ const Warmup = ({ allCars }) => {
   console.log('USER', userCars);
   
   if (allCars.length % 2 !== 0) {
-    alert('There are odd number of cars right now; Check the garage to create another car')
+    alert('There are odd number of cars right now; Check the garage to create new one')
   } else {
   return (
     <div className="opponent-garage">

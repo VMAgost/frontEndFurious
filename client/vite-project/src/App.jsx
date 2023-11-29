@@ -31,6 +31,7 @@ function App() {
         <Link to={'/api/garage'}><button>Garage</button></Link>
         <Link to={'/api/warmup'}><button>Warmup</button></Link>
       </div>
+
     </>
   );
 }
