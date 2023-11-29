@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const trackLength = 1200;
 
 const Race = () => {
+  const trackLength = 1200;
   const [cars, setCars] = useState([]);
-  const [randomCarIndex, setRandomCarIndex] = useState(0);
+
 
   useEffect(() => {
     fetch('http://localhost:4000/api/cars')
@@ -14,10 +14,6 @@ const Race = () => {
       .catch((err) => console.error('Error: ', err));
   }, []);
 
-  useEffect(() => {
-    const randomIndex = Math.ceil(Math.random() * 3);
-    setRandomCarIndex(randomIndex);
-  }, []);
 
   console.log(cars);
 
@@ -28,13 +24,21 @@ const Race = () => {
     }
 
     const fixedCarIndex = 0;
-    const randomCarIndex = 1 + Math.floor(Math.random() * 3);
-
+    const randomIndex = Math.floor(Math.random() * cars.length);
+    if (randomIndex === 0) {
+      randomIndex + 1;
+    }
+    console.log(randomIndex)
     const AICar = cars[fixedCarIndex];
-    const randomCar = cars[randomCarIndex];
-
-    const timeToFinishAICar = (trackLength / AICar.acceleration) ** 0.5;
-    const timeToFinishRandomCar = (trackLength / randomCar.acceleration) ** 0.5;
+    const randomCar = cars[randomIndex];
+    console.log(randomCar)
+    const aiAcceleration = ((AICar.top_speed * 1000) / 3600) / AICar.acceleration;
+    const randomAcceleration = ((randomCar.top_speed * 1000) / 3600) / randomCar.acceleration;
+  
+    const timeToFinishAICar = Math.sqrt(2 * trackLength / aiAcceleration)
+    const timeToFinishRandomCar = Math.sqrt(2 * trackLength / randomAcceleration)
+    console.log('AI', timeToFinishAICar)
+    console.log('Player', timeToFinishRandomCar)
 
     if (timeToFinishAICar > timeToFinishRandomCar) {
       return (`winner is PLAYER: ${randomCar.manufacturer}, winner time is: ${timeToFinishRandomCar}`)
@@ -50,7 +54,7 @@ const Race = () => {
   return (
     <div>
       {raceCars()}
-    <Link to={'/api/garage'}><button>Garage</button></Link>
+      <Link to={'/api/garage'}><button>Garage</button></Link>
     </div>
   )
 }
