@@ -55,6 +55,7 @@ const Race = () => {
     <div>
       {raceCars()}
       <Link to={'/api/garage'}><button>Garage</button></Link>
+    <Link to={'/api/garage'}><button>Garage</button></Link>
     </div>
   )
 }
