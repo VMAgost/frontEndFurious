@@ -9,8 +9,11 @@ app.use(cors());
 
 import Car from './models/Car.js';
 
-//create .env in server folder + npm i dotenv 
-//PORT=4000 MONG_URI=mongodb://127.0.0.1:27017/
+app.get('/cars', async (req, res) => {
+    const cars = await Car.find();
+  
+    res.json(cars);
+  })
 
 mongoose.connect(process.env.MONG_URI)                                                    
 .then(() => {
