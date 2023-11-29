@@ -9,6 +9,11 @@ app.use(cors());
 
 import Car from './models/Car.js';
 
+app.get('/cars', async (req, res) => {
+    const cars = await Car.find();
+  
+    res.json(cars);
+  })
 app.get('/api/cars', async (req, res) => {
     try {
         const cars = await Car.find();
