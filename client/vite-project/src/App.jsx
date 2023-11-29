@@ -5,7 +5,9 @@ import Race from './components/Race';
 import { useState, useEffect } from 'react'
 import './App.css'
 import Allcars from './components/Allcars';
+
 import OppoentGarage from './components/OpponentGarage';
+import { Link } from 'react-router-dom';
 
 
 function App() {
@@ -19,11 +21,20 @@ const [allCars, setAllCars] = useState([])
       .catch((err) => console.error('Error: ', err));
   }, []);
 
+
   return (
     <>
       <div>
         {allCars && <Allcars allcars={allCars} />}
         {allCars && <OppoentGarage allCars={allCars} />}
+
+
+
+  return (
+    <>
+      <div>
+        <Allcars allcars={allCars} />
+        <Link to={'/api/garage'}><button>Garage</button></Link>
       </div>
     </>
   );
