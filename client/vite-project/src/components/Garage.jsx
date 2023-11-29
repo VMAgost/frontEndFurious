@@ -1,12 +1,11 @@
 import React from 'react';
 
-const Garage = ({ allcars }) => {
-  if (!allcars) {
+const Garage = ({ allCars }) => {
+  if (!allCars) {
     return <div>Loading...</div>;
   }
 
-  const shuffledCars = [...allcars].sort(() => Math.random() - 0.5);
-
+  const shuffledCars = [...allCars].sort(() => Math.random() - 0.5);
   const halfIndex = Math.ceil(shuffledCars.length / 2);
   const userCars = shuffledCars.slice(0, halfIndex);
   const opponentCars = shuffledCars.slice(halfIndex);
