@@ -1,14 +1,14 @@
 import React from 'react';
 
-const Garage = ({ allCars }) => {
-  if (!allCars) {
-    return <div>Loading...</div>;
-  }
+const Garage = ({  }) => {
+  const [allCars, setAllCars] = useState([])
 
-  const shuffledCars = [...allCars].sort(() => Math.random() - 0.5);
-  const halfIndex = Math.ceil(shuffledCars.length / 2);
-  const userCars = shuffledCars.slice(0, halfIndex);
-  const opponentCars = shuffledCars.slice(halfIndex);
+  useEffect(() => {
+    fetch('http://localhost:4000/api/cars')
+      .then((res) => res.json())
+      .then((data) => setAllCars(data))
+      .catch((err) => console.error('Error: ', err));
+  }, []);
 
   return (
     <div>

@@ -14,15 +14,15 @@ const router = createBrowserRouter([
         element: <App />
     },
     {
-        path: "/api/race",
+        path: "/race",
         element: <Race />
     },
     {
-        path: "/api/garage",
+        path: "/garage",
         element: <Garage />
     },
     {
-        path: "/api/warmup",
+        path: "/warmup",
         element: <Warmup />
     }
 ])
