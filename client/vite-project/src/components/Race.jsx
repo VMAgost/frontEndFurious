@@ -109,7 +109,7 @@ const Race = () => {
       <div>{raceResult}</div>
       {view === false &&
         <>
-          <img src="../crossed_two_checkered_flags.gif" alt="checkered-flag" /><p></p>
+          <img src="../ch_flag.png" alt="checkered-flag" /><p></p>
           <Link to={'/garage'}>
             <button>Garage</button>
           </Link>
