@@ -32,30 +32,32 @@ const Warmup = () => {
     alert('There are an odd number of cars right now; Check the garage to create new ones');
   } else {
     return (
-      <div className="warmup-container">
-        {view === true && (
-          <button onClick={() => getRandomCars()}>get em carZ</button>
-        )}
-        {userCars && opponentCars && (
-          <div className="card-container">
-            {userCars.map((userCar, index) => (
-              <div className="card-row" key={index}>
-                <div className="user-cards">
-                  <img src="../playercard.png" alt="playercard" className="card-img" />
+      <>
+        <div className="warmup-container">
+          {view === true && (
+            <button onClick={() => getRandomCars()}>get em carZ</button>
+          )}
+          {userCars && opponentCars && (
+            <div className="card-container">
+              {userCars.map((userCar, index) => (
+                <div className="card-row" key={index}>
+                  <div className="user-cards">
+                    <img src="../playercard.png" alt="playercard" className="card-img" />
+                  </div>
+                  <div className="opponent-cards">
+                    <img src="../aicard.png" alt="aicard" className="card-img" />
+                  </div>
                 </div>
-                <div className="opponent-cards">
-                  <img src="../aicard.png" alt="aicard" className="card-img" />
-                </div>
-              </div>
-            ))}
-            <div className="race-button">
-            <Link to={'/race'}>
-              <button>Lets Race!</button>
-            </Link>
+              ))}
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+        <div className="race-button">
+          <Link to={'/race'}>
+            <button>Lets Race!</button>
+          </Link>
+        </div>
+      </>
     );
   }
 }
