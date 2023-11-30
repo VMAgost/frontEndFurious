@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Warmup = () => {
   const [opponentCars, setOpponentCars] = useState(null)
@@ -26,34 +27,41 @@ const Warmup = () => {
   }
   console.log('AI', opponentCars);
   console.log('USER', userCars);
-  
+
   if (allCars.length % 2 !== 0) {
-    alert('There are odd number of cars right now; Check the garage to create new one')
+    alert('There are an odd number of cars right now; Check the garage to create new ones');
   } else {
-  return (
-    <div className="warmup">
-      {view === true &&
-      <button onClick={() => getRandomCars()}>get em carZ</button>  
-      }
-      {opponentCars && (
-        opponentCars.map((opponentCar, index) => (
-          <div className="opponent-cars" key={index}>
-            <h2>{opponentCar.manufacturer}</h2>
-            <h3>{opponentCar.model}</h3>
-          </div>
-        ))
-      )}
-      {userCars && (
-        userCars.map((userCar, index) => (
-          <div className="user-cars" key={index}>
-            <h2>{userCar.manufacturer}</h2>
-            <h4>{userCar.model}</h4>
-          </div>
-        ))
-      )}
-    </div>
-  );
-}}
+    return (
+      <>
+        <div className="warmup-container">
+          {view === true && (
+            <button onClick={() => getRandomCars()}>get em carZ</button>
+          )}
+          {userCars && opponentCars && (
+            <div className="card-container">
+              {userCars.map((userCar, index) => (
+                <div className="card-row" key={index}>
+                  <div className="user-cards">
+                    <img src="../playercard.png" alt="playercard" className="card-img" />
+                  </div>
+                  <div className="opponent-cards">
+                    <img src="../aicard.png" alt="aicard" className="card-img" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="race-button">
+          <Link to={'/race'}>
+            <button>Lets Race!</button>
+          </Link>
+        </div>
+      </>
+    );
+  }
+}
+
 
 export default Warmup;
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-const Garage = () => {
   const [allCars, setAllCars] = useState([]);
   const [newCarData, setNewCarData] = useState({
     manufacturer: '',
