@@ -55,18 +55,28 @@ const Race = () => {
         setRandomOppIndex((prev) => prev + 1);
         setRandomUserIndex((prev) => prev + 1);
         setUserWins((prev) => prev + 1);
-        setRaceResult(`Winner is PLAYER: ${userCar.manufacturer}, winner time is: ${timeToFinishRandomCar}`);
+        setRaceResult(  <>
+          <h1>Winner is AI: {userCar.manufacturer} {userCar.model}</h1>
+          <p>Winner time is: {timeToFinishRandomCar}</p>
+          <div className='carpic' ><img className='carPhoto' src={userCar.image} alt={userCar.manufacturer}></img></div>
+        </>);
       } else if (timeToFinishAICar < timeToFinishRandomCar) {
         setRandomOppIndex((prev) => prev + 1);
         setRandomUserIndex((prev) => prev + 1);
         setOpponentWins((prev) => prev + 1);
-        setRaceResult(`Winner is AI: ${opponentCar.manufacturer}, winner time is: ${timeToFinishAICar}`);
+        setRaceResult(
+          <>
+            <h1>Winner is AI: {opponentCar.manufacturer} {opponentCar.model}</h1>
+            <p>Winner time is: {timeToFinishAICar}</p>
+            <div className='carpic' ><img className='carPhoto' src={opponentCar.image} alt={opponentCar.manufacturer}></img></div>
+          </>
+        );
       } else {
         setRandomOppIndex((prev) => prev + 1);
         setRandomUserIndex((prev) => prev + 1);
         setOpponentWins((prev) => prev + 1);
         setUserWins((prev) => prev + 1);
-        setRaceResult("It's a tie");
+        setRaceResult('Its a tie!');
       }
 
       setRaceCount((prev) => prev + 1);
@@ -106,6 +116,13 @@ const Race = () => {
           </div>
         </>
       }
+    <div className='race'>
+{view === true && 
+      <button onClick={() => raceCars()} disabled={raceCount >= (allCars.length / 2 + 1)}>
+        {result}
+        {}
+      </button>
+}
       <div>{raceResult}</div>
       {view === false &&
         <>

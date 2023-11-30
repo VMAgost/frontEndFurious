@@ -23,6 +23,10 @@ const CarSchema = new Schema({
         type: Number,
         require: true
     },
+    image: {
+        type: String,
+        require:true
+    }
 }, {timestamps: true});
 
 export default model('Car', CarSchema)
