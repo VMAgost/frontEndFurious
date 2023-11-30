@@ -25,10 +25,10 @@ app.post('/api/cars', async (req, res) => {
       model: req.body.model,
       top_speed: req.body.top_speed,
       acceleration: req.body.acceleration,
-      horsepower: req.body.horsepower
+      horsepower: req.body.horsepower,
+      image: req.body.image
     });
 
-    // Respond with the created car
     res.status(200).json(car);
   } catch (err) {
     console.error(err);
@@ -47,7 +47,8 @@ app.patch('/api/cars/:id', async (req, res) => {
           model: req.body.model,
           top_speed: req.body.top_speed,
           acceleration: req.body.acceleration,
-          horsepower: req.body.horsepower
+          horsepower: req.body.horsepower,
+          image: req.body.image
         }
       },
       { new: true }
