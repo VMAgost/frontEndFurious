@@ -13,7 +13,7 @@ const Race = () => {
   const [userWins, setUserWins] = useState(0);
   const [opponentWins, setOpponentWins] = useState(0)
   const [view, setView] = useState(true);
-  
+
 
   useEffect(() => {
     fetch('http://localhost:4000/api/cars')
@@ -84,9 +84,9 @@ const Race = () => {
     }
   }
   let result = '';
-  if (raceCount === 0){
+  if (raceCount === 0) {
     result = 'Start'
-  } else if (raceCount === (allCars.length / 2)){
+  } else if (raceCount === (allCars.length / 2)) {
     result = 'And the winner is...'
   }
   else {
@@ -95,22 +95,31 @@ const Race = () => {
 
   return (
     <div>
-{view === true && 
-      <button onClick={() => raceCars()} disabled={raceCount >= (allCars.length / 2 + 1)}>
-        {result}
-      </button>
-}
+      <img className="toretto" src="./toretto.png" /><p></p>
+      {view === true &&
+        <>
+
+          <div className="race-button">
+            <button onClick={() => raceCars()} disabled={raceCount >= (allCars.length / 2 + 1)}>
+              {result}
+            </button>
+          </div>
+        </>
+      }
       <div>{raceResult}</div>
-        {view === false && 
-      <Link to={'/garage'}>
-        <button>Garage</button>
-      </Link>
-}
-{view === false && 
-      <Link to={'/'}>
-        <button>Home</button>
-      </Link>
-}
+      {view === false &&
+        <>
+          <img src="../crossed_two_checkered_flags.gif" alt="checkered-flag" /><p></p>
+          <Link to={'/garage'}>
+            <button>Garage</button>
+          </Link>
+        </>
+      }
+      {view === false &&
+        <Link to={'/'}>
+          <button>Home</button>
+        </Link>
+      }
 
     </div>
   )

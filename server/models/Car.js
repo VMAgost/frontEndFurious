@@ -22,7 +22,7 @@ const CarSchema = new Schema({
     horsepower: {
         type: Number,
         require: true
-    }
+    },
 }, {timestamps: true});
 
 export default model('Car', CarSchema)
