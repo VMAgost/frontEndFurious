@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
+const Garage = () => {
   const [allCars, setAllCars] = useState([]);
   const [newCarData, setNewCarData] = useState({
     manufacturer: '',
@@ -43,7 +44,6 @@ import React, { useState, useEffect } from "react";
 
   const handleUpdateCar = (carId) => {
     setEditCarId(carId);
-    // Set initial values for the input fields based on the existing data
     setNewCarData(allCars.find((car) => car._id === carId) || {
       manufacturer: '',
       model: '',
@@ -68,7 +68,6 @@ import React, { useState, useEffect } from "react";
         prevCars.map((car) => (car._id === carId ? updatedCar.updatedCar : car))
       );
       setEditCarId(null);
-      // Reset newCarData after saving changes
       setNewCarData({
         manufacturer: '',
         model: '',
@@ -95,6 +94,12 @@ import React, { useState, useEffect } from "react";
 
   return (
     <div>
+      <Link to={'/warmup'}>
+        <button>Warmup</button>
+      </Link>
+      <Link to={'/'}>
+        <button>Home</button>
+      </Link>
       <div>
         <label>Manufacturer:</label>
         <input

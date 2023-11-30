@@ -12,7 +12,6 @@ function App() {
     <>
       <div>
         <Link to={'/garage'}><button>Garage</button></Link>
-        <Link to={'/warmup'}><button>Warmup</button></Link>
       </div>
 
     </>
