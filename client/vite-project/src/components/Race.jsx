@@ -6,8 +6,14 @@ const Race = () => {
   const [opponentCars, setOpponentCars] = useState(null);
   const [userCars, setUserCars] = useState(null);
   const [raceResult, setRaceResult] = useState('');
-
+  const [raceCount, setRaceCount] = useState(0);
   const [allCars, setAllCars] = useState([]);
+  const [randomOppIndex, setRandomOppIndex] = useState(0);
+  const [randomUserIndex, setRandomUserIndex] = useState(0);
+  const [userWins, setUserWins] = useState(0);
+  const [opponentWins, setOpponentWins] = useState(0)
+  const [view, setView] = useState(true);
+  
 
   useEffect(() => {
     fetch('http://localhost:4000/api/cars')
@@ -31,41 +37,83 @@ const Race = () => {
       console.log('Loading cars...');
       return;
     }
-    const randomOppIndex = Math.ceil(Math.random() * opponentCars.length - 1);
-    const randomUserIndex = Math.ceil(Math.random() * userCars.length - 1)
 
-    const opponentCar = opponentCars[randomOppIndex];
-    const userCar = userCars[randomUserIndex];
+    if (raceCount < allCars.length / 2) {
+      const opponentCar = opponentCars[randomOppIndex];
+      const userCar = userCars[randomUserIndex];
 
-    const aiAcceleration = ((opponentCar.top_speed * 1000) / 3600) / opponentCar.acceleration;
-    const randomAcceleration = ((userCar.top_speed * 1000) / 3600) / userCar.acceleration;
+      const aiAcceleration = ((opponentCar.top_speed * 1000) / 3600) / opponentCar.acceleration;
+      const randomAcceleration = ((userCar.top_speed * 1000) / 3600) / userCar.acceleration;
 
-    const timeToFinishAICar = Math.sqrt(2 * trackLength / aiAcceleration);
-    const timeToFinishRandomCar = Math.sqrt(2 * trackLength / randomAcceleration);
-    console.log('AI', timeToFinishAICar);
-    console.log('Player', timeToFinishRandomCar);
-    console.log('opp', opponentCar)
-    console.log('user', userCar)
-    if (timeToFinishAICar > timeToFinishRandomCar) {
-      setRaceResult(`Winner is PLAYER: ${userCar.manufacturer}, winner time is: ${timeToFinishRandomCar}`);
-    } else if (timeToFinishAICar < timeToFinishRandomCar) {
-      setRaceResult(`Winner is AI: ${opponentCar.manufacturer}, winner time is: ${timeToFinishAICar}`);
+      const timeToFinishAICar = Math.sqrt(2 * trackLength / aiAcceleration);
+      const timeToFinishRandomCar = Math.sqrt(2 * trackLength / randomAcceleration);
+      console.log('AI', timeToFinishAICar);
+      console.log('Player', timeToFinishRandomCar);
+      console.log('opp', opponentCar);
+      console.log('user', userCar);
+      if (timeToFinishAICar > timeToFinishRandomCar) {
+        setRandomOppIndex((prev) => prev + 1);
+        setRandomUserIndex((prev) => prev + 1);
+        setUserWins((prev) => prev + 1);
+        setRaceResult(`Winner is PLAYER: ${userCar.manufacturer}, winner time is: ${timeToFinishRandomCar}`);
+      } else if (timeToFinishAICar < timeToFinishRandomCar) {
+        setRandomOppIndex((prev) => prev + 1);
+        setRandomUserIndex((prev) => prev + 1);
+        setOpponentWins((prev) => prev + 1);
+        setRaceResult(`Winner is AI: ${opponentCar.manufacturer}, winner time is: ${timeToFinishAICar}`);
+      } else {
+        setRandomOppIndex((prev) => prev + 1);
+        setRandomUserIndex((prev) => prev + 1);
+        setOpponentWins((prev) => prev + 1);
+        setUserWins((prev) => prev + 1);
+        setRaceResult("It's a tie");
+      }
+
+      setRaceCount((prev) => prev + 1);
     } else {
-      setRaceResult("It's a tie");
+      if (userWins > opponentWins) {
+        setRaceResult(<h1>User Won!</h1>);
+        setView(false)
+      } else if (opponentWins > userWins) {
+        setRaceResult(<h1>Opponent Won!</h1>);
+        setView(false)
+      } else {
+        setRaceResult(<h1>Its a Tie!</h1>);
+        setView(false)
+      }
     }
+  }
+  let result = '';
+  if (raceCount === 0){
+    result = 'Start'
+  } else if (raceCount === (allCars.length / 2)){
+    result = 'And the winner is...'
+  }
+  else {
+    result = `Round: ${raceCount}`
   }
 
   return (
     <div>
-      <button onClick={() => raceCars()}>Race</button>
+{view === true && 
+      <button onClick={() => raceCars()} disabled={raceCount >= (allCars.length / 2 + 1)}>
+        {result}
+      </button>
+}
       <div>{raceResult}</div>
+        {view === false && 
       <Link to={'/garage'}>
         <button>Garage</button>
       </Link>
+}
+{view === false && 
+      <Link to={'/'}>
+        <button>Home</button>
+      </Link>
+}
+
     </div>
-  );
-};
+  )
+}
 
 export default Race;
-
-
