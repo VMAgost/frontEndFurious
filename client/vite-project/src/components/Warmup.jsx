@@ -1,8 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const Warmup = ({ allCars }) => {
+const Warmup = () => {
   const [opponentCars, setOpponentCars] = useState(null)
   const [userCars, setUserCars] = useState(null)
+  const [view, setView] = useState(true)
+
+  const [allCars, setAllCars] = useState([])
+
+  useEffect(() => {
+    fetch('http://localhost:4000/api/cars')
+      .then((res) => res.json())
+      .then((data) => setAllCars(data))
+      .catch((err) => console.error('Error: ', err));
+  }, []);
 
   console.log(allCars);
 
@@ -12,16 +22,19 @@ const Warmup = ({ allCars }) => {
     const getUserCars = randomCars.slice(allCars.length / 2)
     setUserCars(getUserCars)
     setOpponentCars(getOpponentCars)
+    setView(false)
   }
   console.log('AI', opponentCars);
   console.log('USER', userCars);
   
   if (allCars.length % 2 !== 0) {
-    alert('There are odd number of cars right now; Check the garage to create another car')
+    alert('There are odd number of cars right now; Check the garage to create new one')
   } else {
   return (
-    <div className="opponent-garage">
-      <button onClick={() => getRandomCars()}>get em carZ</button>
+    <div className="warmup">
+      {view === true &&
+      <button onClick={() => getRandomCars()}>get em carZ</button>  
+      }
       {opponentCars && (
         opponentCars.map((opponentCar, index) => (
           <div className="opponent-cars" key={index}>
