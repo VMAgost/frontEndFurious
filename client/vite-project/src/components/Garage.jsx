@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Garage = ({  }) => {
+const Garage = () => {
   const [allCars, setAllCars] = useState([])
 
   useEffect(() => {
