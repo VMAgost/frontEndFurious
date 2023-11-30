@@ -70,7 +70,16 @@
   height: auto;
   max-width: 150px; 
 }
-
+.carPhoto {
+  position: absolute;
+  margin-left: -250px;
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+}
+.race {
+  margin-top: -300px;
+}
 
 
 
