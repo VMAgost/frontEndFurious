@@ -53,9 +53,11 @@ const Warmup = () => {
           )}
         </div>
         <div className="race-button">
+          {view === false && 
           <Link to={'/race'}>
             <button>Lets Race!</button>
           </Link>
+          }
         </div>
       </>
     );

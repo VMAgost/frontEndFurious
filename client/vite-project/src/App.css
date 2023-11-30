@@ -4,6 +4,28 @@
   padding: 2rem;
   text-align: center;
 }
+body {
+  background-repeat: no-repeat;
+  background-size: auto auto;
+  background-position: center center;
+  background-size: cover;
+  background-image: url('./ff7_family.jpg');
+  position: relative;
+
+}
+
+.toretto {
+  width: 100%;
+  height: auto;
+  max-width: 100px; 
+  margin-top: -250px;
+  padding-bottom: 1px
+}
+
+.race-button {
+  padding-top: 1px;
+  margin-top: -30px
+}
 
 .logo {
   height: 6em;
@@ -49,7 +71,7 @@
 
 .card-container {
   display: flex;
-  flex-wrap: wrap;
+  
   
 }
 
@@ -65,7 +87,7 @@
   margin-right: 10px; 
 }
 
-.card-img {
+.card-img, img {
   width: 100%;
   height: auto;
   max-width: 150px; 

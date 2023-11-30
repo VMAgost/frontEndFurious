@@ -3,6 +3,7 @@ import './App.css';
 import { Link } from 'react-router-dom';
 
 
+
 function App() {
 
 
@@ -10,7 +11,8 @@ function App() {
 
   return (
     <>
-      <div>
+       
+      <div className="garage-button">
         <Link to={'/garage'}><button>Garage</button></Link>
       </div>
 
