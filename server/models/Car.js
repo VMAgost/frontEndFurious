@@ -22,6 +22,10 @@ const CarSchema = new Schema({
     horsepower: {
         type: Number,
         require: true
+    },
+    image: {
+        type: String,
+        require:true
     }
 }, {timestamps: true});
 
