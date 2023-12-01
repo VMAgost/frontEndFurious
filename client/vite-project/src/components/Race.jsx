@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Race = () => {
@@ -11,9 +11,8 @@ const Race = () => {
   const [randomOppIndex, setRandomOppIndex] = useState(0);
   const [randomUserIndex, setRandomUserIndex] = useState(0);
   const [userWins, setUserWins] = useState(0);
-  const [opponentWins, setOpponentWins] = useState(0)
+  const [opponentWins, setOpponentWins] = useState(0);
   const [view, setView] = useState(true);
-
 
   useEffect(() => {
     fetch('http://localhost:4000/api/cars')
@@ -47,19 +46,18 @@ const Race = () => {
 
       const timeToFinishAICar = Math.sqrt(2 * trackLength / aiAcceleration);
       const timeToFinishRandomCar = Math.sqrt(2 * trackLength / randomAcceleration);
-      console.log('AI', timeToFinishAICar);
-      console.log('Player', timeToFinishRandomCar);
-      console.log('opp', opponentCar);
-      console.log('user', userCar);
+
       if (timeToFinishAICar > timeToFinishRandomCar) {
         setRandomOppIndex((prev) => prev + 1);
         setRandomUserIndex((prev) => prev + 1);
         setUserWins((prev) => prev + 1);
-        setRaceResult(  <>
-          <h1>Winner is AI: {userCar.manufacturer} {userCar.model}</h1>
-          <p>Winner time is: {timeToFinishRandomCar}</p>
-          <div className='carpic' ><img className='carPhoto' src={userCar.image} alt={userCar.manufacturer}></img></div>
-        </>);
+        setRaceResult(
+          <>
+            <h1>Winner is Player: {userCar.manufacturer} {userCar.model}</h1>
+            <p>Winner time is: {timeToFinishRandomCar}</p>
+            <div className='carpic'><img className='carPhoto' src={userCar.image} alt={userCar.manufacturer}></img></div>
+          </>
+        );
       } else if (timeToFinishAICar < timeToFinishRandomCar) {
         setRandomOppIndex((prev) => prev + 1);
         setRandomUserIndex((prev) => prev + 1);
@@ -68,7 +66,7 @@ const Race = () => {
           <>
             <h1>Winner is AI: {opponentCar.manufacturer} {opponentCar.model}</h1>
             <p>Winner time is: {timeToFinishAICar}</p>
-            <div className='carpic' ><img className='carPhoto' src={opponentCar.image} alt={opponentCar.manufacturer}></img></div>
+            <div className='carpic'><img className='carPhoto' src={opponentCar.image} alt={opponentCar.manufacturer}></img></div>
           </>
         );
       } else {
@@ -83,63 +81,61 @@ const Race = () => {
     } else {
       if (userWins > opponentWins) {
         setRaceResult(<h1>User Won!</h1>);
-        setView(false)
+        setView(false);
       } else if (opponentWins > userWins) {
         setRaceResult(<h1>Opponent Won!</h1>);
-        setView(false)
+        setView(false);
       } else {
         setRaceResult(<h1>Its a Tie!</h1>);
-        setView(false)
+        setView(false);
       }
     }
   }
+
   let result = '';
   if (raceCount === 0) {
-    result = 'Start'
-  } else if (raceCount === (allCars.length / 2)) {
-    result = 'And the winner is...'
-  }
-  else {
-    result = `Round: ${raceCount}`
+    result = 'Start';
+  } else if (raceCount === allCars.length / 2) {
+    result = 'And the winner is...';
+  } else {
+    result = `Round: ${raceCount}`;
   }
 
   return (
     <div>
       <img className="toretto" src="./toretto.png" /><p></p>
-      {view === true &&
+      {/* {view === true &&
         <>
-
           <div className="race-button">
-            <button onClick={() => raceCars()} disabled={raceCount >= (allCars.length / 2 + 1)}>
+            <button onClick={() => raceCars()} disabled={raceCount >= allCars.length / 2 + 1}>
               {result}
             </button>
           </div>
         </>
-      }
-    <div className='race'>
-{view === true && 
-      <button onClick={() => raceCars()} disabled={raceCount >= (allCars.length / 2 + 1)}>
-        {result}
-        {}
-      </button>
-}
-      <div>{raceResult}</div>
-      {view === false &&
-        <>
-          <img src="../ch_flag.png" alt="checkered-flag" /><p></p>
-          <Link to={'/garage'}>
-            <button>Garage</button>
+      } */}
+      <div className='race'>
+        {view === true &&
+          <button onClick={() => raceCars()} disabled={raceCount >= allCars.length / 2 + 1}>
+            {result}
+          </button>
+        }
+        <div>{raceResult}</div>
+        {view === false &&
+          <>
+            <img src="../ch_flag.png" alt="checkered-flag" /><p></p>
+            <Link to={'/garage'}>
+              <button>Garage</button>
+            </Link>
+          </>
+        }
+        {view === false &&
+          <Link to={'/'}>
+            <button>Home</button>
           </Link>
-        </>
-      }
-      {view === false &&
-        <Link to={'/'}>
-          <button>Home</button>
-        </Link>
-      }
-
+        }
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default Race;
