@@ -26,6 +26,10 @@ const CarSchema = new Schema({
     image: {
         type: String,
         require:true
+    },
+    driver: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Driver'
     }
 }, {timestamps: true});
 

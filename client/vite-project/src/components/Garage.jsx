@@ -117,6 +117,9 @@ const Garage = () => {
         </audio>
       </div>
       </div>
+      <Link to={"/warmup"}>
+        <button>Warmup</button>
+      </Link>
       <Link to={"/"}>
         <button>Home</button>
       </Link>
