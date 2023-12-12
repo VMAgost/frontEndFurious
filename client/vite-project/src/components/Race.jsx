@@ -13,6 +13,7 @@ const Race = () => {
   const [userWins, setUserWins] = useState(0);
   const [opponentWins, setOpponentWins] = useState(0);
   const [view, setView] = useState(true);
+  const [raceView, setRaceView] = useState(false)
 
   const fetchLowCars = async () => {
     try {
@@ -99,7 +100,8 @@ const Race = () => {
           <>
             <h1>Winner is Player: {userCar.manufacturer} {userCar.model}</h1>
             <p>Winner time is: {timeToFinishRandomCar}</p>
-            <div className='carpic'><img className='carPhoto' src={userCar.image} alt={userCar.manufacturer}></img></div>
+            <div className='carpic'><img className='userPhoto' src={userCar.image} alt={userCar.manufacturer}></img></div>
+            <div className='carpic'><img className='carPhoto' src={opponentCar.image} alt={opponentCar.manufacturer}></img></div>
           </>
         );
       } else if (timeToFinishAICar < timeToFinishRandomCar) {
@@ -111,6 +113,7 @@ const Race = () => {
             <h1>Winner is AI: {opponentCar.manufacturer} {opponentCar.model}</h1>
             <p>Winner time is: {timeToFinishAICar}</p>
             <div className='carpic'><img className='carPhoto' src={opponentCar.image} alt={opponentCar.manufacturer}></img></div>
+            <div className='carpic'><img className='userPhoto' src={userCar.image} alt={userCar.manufacturer}></img></div>
           </>
         );
       } else {
@@ -151,21 +154,58 @@ const Race = () => {
       <button onClick={handleLowCarsClick}>Low Cars</button>
       <button onClick={handleMidCarsClick}>Mid Cars</button>
       <button onClick={handleSuperCarsClick}>Super Cars</button>
-
       {userCars && opponentCars && (
         <div className="card-container">
           {userCars.map((userCar, index) => (
-            <div className="card-row" key={index}>
-              <div className="user-cards">
-                <img src={userCar.image} alt="playercard" className="card-img" />
-              </div>
+            <div className="card" key={index}>
+              <div className="img-container">
+                  <img
+                    className="garage-cars"
+                    src={userCar.image}
+                    alt={`${userCar.manufacturer} ${userCar.model}`}
+                  />
+                </div>
+                <div className="car-attributes">
+                  Manufacturer: <p>{userCar.manufacturer}</p>
+                </div>
+                <div className="car-attributes">
+                  Model: <p>{userCar.model}</p>
+                </div>
+                <div className="car-attributes">
+                  Top Speed: <p>{userCar.top_speed}</p>
+                </div>
+                <div className="car-attributes">
+                  Acceleration to Top Speed: <p>{userCar.acceleration}</p>
+                </div>
+                <div className="car-attributes">
+                  Horsepower: <p>{userCar.horsepower}</p>
+                </div>
             </div>
           ))}
           {opponentCars.map((opponenCar, index) => (
-            <div className="card-row" key={index}>
-              <div className="opponent-cards">
-                <img src="../aicard.png" alt="aicard" className="card-img" />
-              </div>
+            <div className="card" key={index}>
+              <div className="img-container">
+                  <img
+                    className="garage-cars"
+                    src={opponenCar.image}
+                    alt={`${opponenCar.manufacturer} ${opponenCar.model}`}
+                  />
+                </div>
+                <div className="car-attributes">
+                  Manufacturer: <p>{opponenCar.manufacturer}</p>
+                </div>
+                <div className="car-attributes">
+                  Model: <p>{opponenCar.model}</p>
+                </div>
+                <div className="car-attributes">
+                  Top Speed: <p>{opponenCar.top_speed}</p>
+                </div>
+                <div className="car-attributes">
+                  Acceleration to Top Speed: <p>{opponenCar.acceleration}</p>
+                </div>
+                <div className="car-attributes">
+                  Horsepower: <p>{opponenCar.horsepower}</p>
+                </div>
             </div>
           ))}
 
