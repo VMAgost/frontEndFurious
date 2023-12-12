@@ -120,6 +120,7 @@ img {
   object-fit: cover; 
 }
 
+
 .userPhoto {
   position: absolute;
   margin-left: 150px;
@@ -127,6 +128,14 @@ img {
   height: 300px;
   max-width: 500px;
   object-fit: cover;
+
+.audio-player-container {
+  display: none;
+}
+
+.audio-player {
+  visibility: hidden;
+
 }
 
 .race {

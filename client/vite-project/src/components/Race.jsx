@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import GoHardOrGoHome from "../music/Go_hard_or_go_home.mp3";
+import "../App.css";
 
 const Race = () => {
   const [trackLength, setTrackLength] = useState(1200)
@@ -12,8 +14,12 @@ const Race = () => {
   const [randomUserIndex, setRandomUserIndex] = useState(0);
   const [userWins, setUserWins] = useState(0);
   const [opponentWins, setOpponentWins] = useState(0);
+
   const [view, setView] = useState(true);
   const [raceView, setRaceView] = useState(false)
+
+  const [view, setView] = useState(false);
+
 
   const fetchLowCars = async () => {
     try {
@@ -57,14 +63,29 @@ const Race = () => {
     fetchSuperCars()
   }
 
- /*  useEffect(() => {
-    fetchLowCars()
-    fetchMidCars()
-    fetchSuperCars()
-      .then((res) => res.json())
-      .then((data) => setAllCars(data))
-      .catch((err) => console.error('Error: ', err));
-  }, []); */
+  const handleShortTrackClick = () => {
+    setTrackLength(400);
+    setView(true)
+  }
+
+  const handleMidTrackClick = () => {
+    setTrackLength(800);
+    setView(true)
+  }
+
+  const handleLongTrackClick = () => {
+    setTrackLength(1200);
+    setView(true)
+  }
+
+  /*  useEffect(() => {
+     fetchLowCars()
+     fetchMidCars()
+     fetchSuperCars()
+       .then((res) => res.json())
+       .then((data) => setAllCars(data))
+       .catch((err) => console.error('Error: ', err));
+   }, []); */
 
   useEffect(() => {
     if (allCars.length > 0) {
@@ -150,10 +171,36 @@ const Race = () => {
 
   return (
     <div>
+      <div className="audio-player-container">
+        <audio controls autoPlay className="audio-player">
+          <source src={GoHardOrGoHome} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
       <img className="toretto" src="./toretto.png" /><p></p>
+
       <button onClick={handleLowCarsClick}>Low Cars</button>
       <button onClick={handleMidCarsClick}>Mid Cars</button>
       <button onClick={handleSuperCarsClick}>Super Cars</button>
+
+      {view === false && (
+        <div className="track-choose">
+          <button onClick={handleShortTrackClick}>Short Track</button>
+          <button onClick={handleMidTrackClick}>Mid Track</button>
+          <button onClick={handleLongTrackClick}>Long Track</button>
+        </div>
+      )}
+
+      {view === true &&
+        <div className="choose-cars">
+          <img className="toretto" src="./toretto.png" /><p></p>
+          <button onClick={handleLowCarsClick}>Low Cars</button>
+          <button onClick={handleMidCarsClick}>Mid Cars</button>
+          <button onClick={handleSuperCarsClick}>Super Cars</button>
+        </div>
+      }
+
+
       {userCars && opponentCars && (
         <div className="card-container">
           {userCars.map((userCar, index) => (
@@ -183,6 +230,7 @@ const Race = () => {
             </div>
           ))}
           {opponentCars.map((opponenCar, index) => (
+
             <div className="card" key={index}>
               <div className="img-container">
                   <img
@@ -206,6 +254,14 @@ const Race = () => {
                 <div className="car-attributes">
                   Horsepower: <p>{opponenCar.horsepower}</p>
                 </div>
+
+            <div className="card-row" key={index}>
+              <div className="opponent-cards">
+                {}
+              <img src={opponenCar.image} alt="playercard" className="card-img" />
+                <img src="../aicard.png" alt="aicard" className="card-img" />
+              </div>
+
             </div>
           ))}
 
