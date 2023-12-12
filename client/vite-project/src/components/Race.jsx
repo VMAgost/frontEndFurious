@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import GoHardOrGoHome from "../music/Go_hard_or_go_home.mp3";
-import "../App.css";
 
 const Race = () => {
-  const [trackLength, setTrackLength] = useState(1200);
+  const [trackLength, setTrackLength] = useState(1200)
   const [opponentCars, setOpponentCars] = useState(null);
   const [userCars, setUserCars] = useState(null);
   const [raceResult, setRaceResult] = useState('');
@@ -14,66 +12,59 @@ const Race = () => {
   const [randomUserIndex, setRandomUserIndex] = useState(0);
   const [userWins, setUserWins] = useState(0);
   const [opponentWins, setOpponentWins] = useState(0);
-
   const [view, setView] = useState(true);
-  const [raceView, setRaceView] = useState(false);
+  const [raceView, setRaceView] = useState(false)
 
   const fetchLowCars = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/cars/low');
-      const lowCarsData = await response.json();
-      setAllCars(lowCarsData);
+      const response = await fetch('http://localhost:4000/api/cars/low')
+      const lowCarsData = await response.json()
+      setAllCars(lowCarsData)
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const fetchMidCars = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/cars/mid');
-      const midCarsData = await response.json();
-      setAllCars(midCarsData);
+      const response = await fetch('http://localhost:4000/api/cars/mid')
+      const lowCarsData = await response.json()
+      setAllCars(lowCarsData)
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const fetchSuperCars = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/cars/super');
-      const superCarsData = await response.json();
-      setAllCars(superCarsData);
+      const response = await fetch('http://localhost:4000/api/cars/super')
+      const lowCarsData = await response.json()
+      setAllCars(lowCarsData)
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const handleLowCarsClick = () => {
     fetchLowCars();
-  };
+  }
 
   const handleMidCarsClick = () => {
-    fetchMidCars();
-  };
+    fetchMidCars()
+  }
 
   const handleSuperCarsClick = () => {
-    fetchSuperCars();
-  };
+    fetchSuperCars()
+  }
 
-  const handleShortTrackClick = () => {
-    setTrackLength(400);
-    setView(true);
-  };
-
-  const handleMidTrackClick = () => {
-    setTrackLength(800);
-    setView(true);
-  };
-
-  const handleLongTrackClick = () => {
-    setTrackLength(1200);
-    setView(true);
-  };
+ /*  useEffect(() => {
+    fetchLowCars()
+    fetchMidCars()
+    fetchSuperCars()
+      .then((res) => res.json())
+      .then((data) => setAllCars(data))
+      .catch((err) => console.error('Error: ', err));
+  }, []); */
 
   useEffect(() => {
     if (allCars.length > 0) {
@@ -159,89 +150,65 @@ const Race = () => {
 
   return (
     <div>
-      <div className="audio-player-container">
-        <audio controls autoPlay className="audio-player">
-          <source src={GoHardOrGoHome} type="audio/mp3" />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
       <img className="toretto" src="./toretto.png" /><p></p>
-
       <button onClick={handleLowCarsClick}>Low Cars</button>
       <button onClick={handleMidCarsClick}>Mid Cars</button>
       <button onClick={handleSuperCarsClick}>Super Cars</button>
-
-      {view === false && (
-        <div className="track-choose">
-          <button onClick={handleShortTrackClick}>Short Track</button>
-          <button onClick={handleMidTrackClick}>Mid Track</button>
-          <button onClick={handleLongTrackClick}>Long Track</button>
-        </div>
-      )}
-
-      {view === true &&
-        <div className="choose-cars">
-          <img className="toretto" src="./toretto.png" /><p></p>
-          <button onClick={handleLowCarsClick}>Low Cars</button>
-          <button onClick={handleMidCarsClick}>Mid Cars</button>
-          <button onClick={handleSuperCarsClick}>Super Cars</button>
-        </div>
-      }
-
       {userCars && opponentCars && (
         <div className="card-container">
           {userCars.map((userCar, index) => (
             <div className="card" key={index}>
               <div className="img-container">
-                <img
-                  className="garage-cars"
-                  src={userCar.image}
-                  alt={`${userCar.manufacturer} ${userCar.model}`}
-                />
-              </div>
-              <div className="car-attributes">
-                Manufacturer: <p>{userCar.manufacturer}</p>
-              </div>
-              <div className="car-attributes">
-                Model: <p>{userCar.model}</p>
-              </div>
-              <div className="car-attributes">
-                Top Speed: <p>{userCar.top_speed}</p>
-              </div>
-              <div className="car-attributes">
-                Acceleration to Top Speed: <p>{userCar.acceleration}</p>
-              </div>
-              <div className="car-attributes">
-                Horsepower: <p>{userCar.horsepower}</p>
-              </div>
+                  <img
+                    className="garage-cars"
+                    src={userCar.image}
+                    alt={`${userCar.manufacturer} ${userCar.model}`}
+                  />
+                </div>
+                <div className="car-attributes">
+                  Manufacturer: <p>{userCar.manufacturer}</p>
+                </div>
+                <div className="car-attributes">
+                  Model: <p>{userCar.model}</p>
+                </div>
+                <div className="car-attributes">
+                  Top Speed: <p>{userCar.top_speed}</p>
+                </div>
+                <div className="car-attributes">
+                  Acceleration to Top Speed: <p>{userCar.acceleration}</p>
+                </div>
+                <div className="car-attributes">
+                  Horsepower: <p>{userCar.horsepower}</p>
+                </div>
             </div>
           ))}
-          {opponentCars.map((opponentCar, index) => (
+          {opponentCars.map((opponenCar, index) => (
             <div className="card" key={index}>
               <div className="img-container">
-                <img
-                  className="garage-cars"
-                  src={opponentCar.image}
-                  alt={`${opponentCar.manufacturer} ${opponentCar.model}`}
-                />
-              </div>
-              <div className="car-attributes">
-                Manufacturer: <p>{opponentCar.manufacturer}</p>
-              </div>
-              <div className="car-attributes">
-                Model: <p>{opponentCar.model}</p>
-              </div>
-              <div className="car-attributes">
-                Top Speed: <p>{opponentCar.top_speed}</p>
-              </div>
-              <div className="car-attributes">
-                Acceleration to Top Speed: <p>{opponentCar.acceleration}</p>
-              </div>
-              <div className="car-attributes">
-                Horsepower: <p>{opponentCar.horsepower}</p>
-              </div>
+                  <img
+                    className="garage-cars"
+                    src={opponenCar.image}
+                    alt={`${opponenCar.manufacturer} ${opponenCar.model}`}
+                  />
+                </div>
+                <div className="car-attributes">
+                  Manufacturer: <p>{opponenCar.manufacturer}</p>
+                </div>
+                <div className="car-attributes">
+                  Model: <p>{opponenCar.model}</p>
+                </div>
+                <div className="car-attributes">
+                  Top Speed: <p>{opponenCar.top_speed}</p>
+                </div>
+                <div className="car-attributes">
+                  Acceleration to Top Speed: <p>{opponenCar.acceleration}</p>
+                </div>
+                <div className="car-attributes">
+                  Horsepower: <p>{opponenCar.horsepower}</p>
+                </div>
             </div>
           ))}
+
         </div>
       )}
 
