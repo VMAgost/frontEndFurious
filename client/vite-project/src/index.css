@@ -139,6 +139,7 @@ button:focus-visible {
 }
 
 .addcar-card {
+  /* display: none; */
   background-color: whitesmoke;
   border: 2px solid #333;
   border-radius: 10px;
