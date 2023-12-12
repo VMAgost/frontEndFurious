@@ -8,6 +8,17 @@ app.use(express.json());
 app.use(cors());
 
 import Car from './models/Car.js';
+import Driver from './models/Drivers.js'
+
+app.get('/api/drivers', async (req, res) => {
+  try {
+    const driver = await Driver.find();
+    return res.status(200).json(driver)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json('Internal server error')
+  }
+})
 
 app.get('/api/cars/low', async (req, res) => {
   try {
