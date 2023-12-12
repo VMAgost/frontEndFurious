@@ -1,43 +1,43 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import MyLifeBeLike from "../music/My_life_be_like.mp3";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import MyLifeBeLike from '../music/My_life_be_like.mp3';
 
 const Garage = () => {
   const [allCars, setAllCars] = useState([]);
   const [newCarData, setNewCarData] = useState({
-    manufacturer: "",
-    model: "",
+    manufacturer: '',
+    model: '',
     top_speed: 0,
     acceleration: 0,
     horsepower: 0,
-    image: "",
+    image: '',
   });
   const [editCarId, setEditCarId] = useState(null);
   const [editedCarData, setEditedCarData] = useState({
-    manufacturer: "",
-    model: "",
+    manufacturer: '',
+    model: '',
     top_speed: 0,
     acceleration: 0,
     horsepower: 0,
-    image: "",
+    image: '',
   });
 
-  const [view, setView] = useState(false)
-  const [buttonView, setButtonView] = useState(true)
+  const [view, setView] = useState(false);
+  const [buttonView, setButtonView] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/cars")
+    fetch('http://localhost:4000/api/cars')
       .then((res) => res.json())
       .then((data) => setAllCars(data))
-      .catch((err) => console.error("Error: ", err));
+      .catch((err) => console.error('Error: ', err));
   }, []);
 
   const handleAddCar = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/cars", {
-        method: "POST",
+      const response = await fetch('http://localhost:4000/api/cars', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ ...newCarData }),
       });
@@ -45,27 +45,27 @@ const Garage = () => {
       const newCar = await response.json();
       setAllCars((prevCars) => [...prevCars, newCar]);
       setNewCarData({
-        manufacturer: "",
-        model: "",
+        manufacturer: '',
+        model: '',
         top_speed: 0,
         acceleration: 0,
         horsepower: 0,
-        image: "",
+        image: '',
       });
     } catch (error) {
-      console.error("Error adding car:", error);
+      console.error('Error adding car:', error);
     }
   };
 
   const handleUpdateCar = (carId) => {
     setEditCarId(carId);
     const carToUpdate = allCars.find((car) => car._id === carId) || {
-      manufacturer: "",
-      model: "",
+      manufacturer: '',
+      model: '',
       top_speed: 0,
       acceleration: 0,
       horsepower: 0,
-      image: "",
+      image: '',
     };
     setEditedCarData({ ...carToUpdate });
   };
@@ -73,9 +73,9 @@ const Garage = () => {
   const handleSaveChanges = async (carId) => {
     try {
       const response = await fetch(`http://localhost:4000/api/cars/${carId}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(editedCarData),
       });
@@ -86,27 +86,27 @@ const Garage = () => {
       );
       setEditCarId(null);
       setEditedCarData({
-        manufacturer: "",
-        model: "",
+        manufacturer: '',
+        model: '',
         top_speed: 0,
         acceleration: 0,
         horsepower: 0,
-        image: "",
+        image: '',
       });
     } catch (error) {
-      console.error("Error updating car:", error);
+      console.error('Error updating car:', error);
     }
   };
 
   const handleDeleteCar = async (carId) => {
     try {
       await fetch(`http://localhost:4000/api/cars/${carId}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
 
       setAllCars((prevCars) => prevCars.filter((car) => car._id !== carId));
     } catch (error) {
-      console.error("Error deleting car:", error);
+      console.error('Error deleting car:', error);
     }
   };
 
@@ -127,7 +127,8 @@ const Garage = () => {
         <button className="home-btn">Home</button>
       </Link>
       {buttonView === true && (
-        <button className="addnewcar-btn"
+        <button
+          className="addnewcar-btn"
           onClick={() => {
             setView(true);
             setButtonView(false);
