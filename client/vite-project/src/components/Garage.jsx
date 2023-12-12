@@ -119,6 +119,10 @@ const Garage = () => {
       </div>
       <Link to={"/warmup"}>
         <button>Warmup</button>
+
+      <Link to={'/race'}>
+        <button>Race</button>
+
       </Link>
       <Link to={"/"}>
         <button>Home</button>

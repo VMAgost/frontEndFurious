@@ -9,6 +9,49 @@ app.use(cors());
 
 import Car from './models/Car.js';
 
+app.get('/api/cars/low', async (req, res) => {
+  try {
+    const cars = await Car.find({
+      top_speed: {
+        $lt: 150
+      }
+    })
+    return res.json(cars)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' })
+  }
+});
+
+app.get('/api/cars/mid', async (req, res) => {
+  try {
+    const cars = await Car.find({
+      top_speed: {
+        $gt: 150,
+        $lt: 200
+      }
+    })
+    return res.json(cars)
+  } catch (err) {
+    console.log(err);
+    res.status(500).json('Internal server error')
+  }
+});
+
+app.get('/api/cars/super', async (req, res) => {
+  try {
+    const cars = await Car.find({
+      top_speed: {
+        $gt: 200
+      }
+    })
+    return res.json(cars)
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: 'Internal server error'})
+  }
+});
+
 app.get('/api/cars', async (req, res) => {
   try {
     const cars = await Car.find();
