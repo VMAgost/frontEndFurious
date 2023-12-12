@@ -54,6 +54,7 @@ const Garage = () => {
     }
   };
 
+
   const handleUpdateCar = (carId) => {
     setEditCarId(carId);
     const carToUpdate = allCars.find((car) => car._id === carId) || {
@@ -124,6 +125,157 @@ const Garage = () => {
         <button>Race</button>
 
       </Link>
+
+      <Link to={'/'}>
+        <button className="home-btn">Home</button>
+      </Link>
+      <div className="addcar-card">
+        <div>
+          <label>Manufacturer:</label>
+          <input
+            type="text"
+            value={newCarData.manufacturer}
+            onChange={(e) => setNewCarData({ ...newCarData, manufacturer: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Model:</label>
+          <input
+            type="text"
+            value={newCarData.model}
+            onChange={(e) => setNewCarData({ ...newCarData, model: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Top Speed:</label>
+          <input
+            type="number"
+            value={newCarData.top_speed}
+            onChange={(e) => setNewCarData({ ...newCarData, top_speed: Number(e.target.value) })}
+          />
+        </div>
+        <div>
+          <label>Acceleration:</label>
+          <input
+            type="number"
+            value={newCarData.acceleration}
+            onChange={(e) => setNewCarData({ ...newCarData, acceleration: Number(e.target.value) })}
+          />
+        </div>
+        <div>
+          <label>Horsepower:</label>
+          <input
+            type="number"
+            value={newCarData.horsepower}
+            onChange={(e) => setNewCarData({ ...newCarData, horsepower: Number(e.target.value) })}
+          />
+        </div>
+        <div>
+          <label>Image URL:</label>
+          <input
+            type="text"
+            value={newCarData.image}
+            onChange={(e) => setNewCarData({ ...newCarData, image: e.target.value })}
+          />
+        </div>
+        <button onClick={handleAddCar}>Add Car</button>
+      </div>
+      <div className="allcars">
+        {allCars.map((car) => (
+          <div className="card" key={car._id}>
+            {editCarId === car._id ? (
+              <>
+                <div>
+                  <label>Manufacturer:</label>
+                  <input
+                    type="text"
+                    value={editedCarData.manufacturer}
+                    onChange={(e) => setEditedCarData({ ...editedCarData, manufacturer: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label>Model:</label>
+                  <input
+                    type="text"
+                    value={editedCarData.model}
+                    onChange={(e) => setEditedCarData({ ...editedCarData, model: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label>Top Speed:</label>
+                  <input
+                    type="number"
+                    value={editedCarData.top_speed}
+                    onChange={(e) => setEditedCarData({ ...editedCarData, top_speed: Number(e.target.value) })}
+                  />
+                </div>
+                <div>
+                  <label>Acceleration:</label>
+                  <input
+                    type="number"
+                    value={editedCarData.acceleration}
+                    onChange={(e) => setEditedCarData({ ...editedCarData, acceleration: Number(e.target.value) })}
+                  />
+                </div>
+                <div>
+                  <label>Horsepower:</label>
+                  <input
+                    type="number"
+                    value={editedCarData.horsepower}
+                    onChange={(e) => setEditedCarData({ ...editedCarData, horsepower: Number(e.target.value) })}
+                  />
+                </div>
+                <div>
+                  <label>Image URL:</label>
+                  <input
+                    type="text"
+                    value={editedCarData.image}
+                    onChange={(e) => setEditedCarData({ ...editedCarData, image: e.target.value })}
+                  />
+                </div>
+                <button onClick={() => handleSaveChanges(car._id)}>Save</button>
+              </>
+            ) : (
+              <>
+                <div className="img-container">
+                  <img
+                    className="garage-cars"
+                    src={car.image}
+                    alt={`${car.manufacturer} ${car.model}`}
+                  />
+                </div>
+                <div className="car-attributes">
+                  Manufacturer: <p>{car.manufacturer}</p>
+                </div>
+                <div className="car-attributes">
+                  Model: <p>{car.model}</p>
+                </div>
+                <div className="car-attributes">
+                  Top Speed: <p>{car.top_speed}</p>
+                </div>
+                <div className="car-attributes">
+                  Acceleration to Top Speed: <p>{car.acceleration}</p>
+                </div>
+                <div className="car-attributes">
+                  Horsepower: <p>{car.horsepower}</p>
+                </div>
+                <button
+                  className="update-btn"
+                  onClick={() => handleUpdateCar(car._id)}
+                >
+                  Update
+                </button>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDeleteCar(car._id)}
+                >
+                  Delete
+                </button>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
       <Link to={"/"}>
         <button>Home</button>
       </Link>
