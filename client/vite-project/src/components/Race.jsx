@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import GoHardOrGoHome from "../music/Go_hard_or_go_home.mp3";
+import "../App.css";
 
 const Race = () => {
   const [trackLength, setTrackLength] = useState(1200)
@@ -162,6 +164,13 @@ const Race = () => {
 
   return (
     <div>
+      <div className="audio-player-container">
+        <audio controls autoPlay className="audio-player">
+          <source src={GoHardOrGoHome} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <img className="toretto" src="./toretto.png" /><p></p>
       {view === false && (
         <div className="track-choose">
           <button onClick={handleShortTrackClick}>Short Track</button>
