@@ -112,7 +112,14 @@ const Garage = () => {
     <div>
       <Link to={'/race'}>
         <button>Race</button>
-      </Link>
+      <div>
+      <div className="audio-player-container">
+        <audio controls autoPlay className="audio-player">
+          <source src={MyLifeBeLike} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      </div>
       <Link to={'/'}>
         <button className="home-btn">Home</button>
       </Link>
