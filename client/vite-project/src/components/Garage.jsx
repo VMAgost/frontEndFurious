@@ -22,6 +22,9 @@ const Garage = () => {
     image: '',
   });
 
+  const [view, setView] = useState(false)
+  const [buttonView, setButtonView] = useState(true)
+
   useEffect(() => {
     fetch('http://localhost:4000/api/cars')
       .then((res) => res.json())
@@ -113,69 +116,112 @@ const Garage = () => {
     <div>
       <Link to={'/race'}>
         <button>Race</button>
-        </Link>
+      </Link>
       <div>
-      <div className="audio-player-container">
-        <audio controls autoPlay className="audio-player">
-          <source src={MyLifeBeLike} type="audio/mp3" />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
+        <div className="audio-player-container">
+          <audio controls autoPlay className="audio-player">
+            <source src={MyLifeBeLike} type="audio/mp3" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
       </div>
       <Link to={'/'}>
         <button className="home-btn">Home</button>
       </Link>
-      <div className="addcar-card">
-        <div>
-          <label>Manufacturer:</label>
-          <input
-            type="text"
-            value={newCarData.manufacturer}
-            onChange={(e) => setNewCarData({ ...newCarData, manufacturer: e.target.value })}
-          />
+      {buttonView === true && (
+        <button className="addnewcar-btn"
+          onClick={() => {
+            setView(true);
+            setButtonView(false);
+          }}
+        >
+          Add New Car
+        </button>
+      )}
+
+      {view === true && (
+        <div className="addcar-card">
+          <div>
+            <label>Manufacturer:</label>
+            <input
+              type="text"
+              value={newCarData.manufacturer}
+              onChange={(e) =>
+                setNewCarData({ ...newCarData, manufacturer: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label>Model:</label>
+            <input
+              type="text"
+              value={newCarData.model}
+              onChange={(e) =>
+                setNewCarData({ ...newCarData, model: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <label>Top Speed:</label>
+            <input
+              type="number"
+              value={newCarData.top_speed}
+              onChange={(e) =>
+                setNewCarData({
+                  ...newCarData,
+                  top_speed: Number(e.target.value),
+                })
+              }
+            />
+          </div>
+          <div>
+            <label>Acceleration:</label>
+            <input
+              type="number"
+              value={newCarData.acceleration}
+              onChange={(e) =>
+                setNewCarData({
+                  ...newCarData,
+                  acceleration: Number(e.target.value),
+                })
+              }
+            />
+          </div>
+          <div>
+            <label>Horsepower:</label>
+            <input
+              type="number"
+              value={newCarData.horsepower}
+              onChange={(e) =>
+                setNewCarData({
+                  ...newCarData,
+                  horsepower: Number(e.target.value),
+                })
+              }
+            />
+          </div>
+          <div>
+            <label>Image URL:</label>
+            <input
+              type="text"
+              value={newCarData.image}
+              onChange={(e) =>
+                setNewCarData({ ...newCarData, image: e.target.value })
+              }
+            />
+          </div>
+          <button onClick={handleAddCar}>✔</button>
+          <button
+            onClick={() => {
+              setView(false);
+              setButtonView(true);
+            }}
+          >
+            X
+          </button>
         </div>
-        <div>
-          <label>Model:</label>
-          <input
-            type="text"
-            value={newCarData.model}
-            onChange={(e) => setNewCarData({ ...newCarData, model: e.target.value })}
-          />
-        </div>
-        <div>
-          <label>Top Speed:</label>
-          <input
-            type="number"
-            value={newCarData.top_speed}
-            onChange={(e) => setNewCarData({ ...newCarData, top_speed: Number(e.target.value) })}
-          />
-        </div>
-        <div>
-          <label>Acceleration:</label>
-          <input
-            type="number"
-            value={newCarData.acceleration}
-            onChange={(e) => setNewCarData({ ...newCarData, acceleration: Number(e.target.value) })}
-          />
-        </div>
-        <div>
-          <label>Horsepower:</label>
-          <input
-            type="number"
-            value={newCarData.horsepower}
-            onChange={(e) => setNewCarData({ ...newCarData, horsepower: Number(e.target.value) })}
-          />
-        </div>
-        <div>
-          <label>Image URL:</label>
-          <input
-            type="text"
-            value={newCarData.image}
-            onChange={(e) => setNewCarData({ ...newCarData, image: e.target.value })}
-          />
-        </div>
-        <button onClick={handleAddCar}>Add Car</button>
-      </div>
+      )}
+
       <div className="allcars">
         {allCars.map((car) => (
           <div className="card" key={car._id}>
@@ -186,7 +232,12 @@ const Garage = () => {
                   <input
                     type="text"
                     value={editedCarData.manufacturer}
-                    onChange={(e) => setEditedCarData({ ...editedCarData, manufacturer: e.target.value })}
+                    onChange={(e) =>
+                      setEditedCarData({
+                        ...editedCarData,
+                        manufacturer: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div>
@@ -194,7 +245,12 @@ const Garage = () => {
                   <input
                     type="text"
                     value={editedCarData.model}
-                    onChange={(e) => setEditedCarData({ ...editedCarData, model: e.target.value })}
+                    onChange={(e) =>
+                      setEditedCarData({
+                        ...editedCarData,
+                        model: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div>
@@ -202,7 +258,12 @@ const Garage = () => {
                   <input
                     type="number"
                     value={editedCarData.top_speed}
-                    onChange={(e) => setEditedCarData({ ...editedCarData, top_speed: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setEditedCarData({
+                        ...editedCarData,
+                        top_speed: Number(e.target.value),
+                      })
+                    }
                   />
                 </div>
                 <div>
@@ -210,7 +271,12 @@ const Garage = () => {
                   <input
                     type="number"
                     value={editedCarData.acceleration}
-                    onChange={(e) => setEditedCarData({ ...editedCarData, acceleration: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setEditedCarData({
+                        ...editedCarData,
+                        acceleration: Number(e.target.value),
+                      })
+                    }
                   />
                 </div>
                 <div>
@@ -218,7 +284,12 @@ const Garage = () => {
                   <input
                     type="number"
                     value={editedCarData.horsepower}
-                    onChange={(e) => setEditedCarData({ ...editedCarData, horsepower: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setEditedCarData({
+                        ...editedCarData,
+                        horsepower: Number(e.target.value),
+                      })
+                    }
                   />
                 </div>
                 <div>
@@ -226,7 +297,12 @@ const Garage = () => {
                   <input
                     type="text"
                     value={editedCarData.image}
-                    onChange={(e) => setEditedCarData({ ...editedCarData, image: e.target.value })}
+                    onChange={(e) =>
+                      setEditedCarData({
+                        ...editedCarData,
+                        image: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <button onClick={() => handleSaveChanges(car._id)}>Save</button>
