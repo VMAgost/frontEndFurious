@@ -12,3 +12,8 @@ PATCH http://localhost:4000/api/cars/6566ff77679cee078b0e64cc
 
 DELETE http://localhost:4000/api/cars/6565ac22aa7f2e525eaf9d89
 
+###
+
+GET http://localhost:4000/api/cars/mid
+
+

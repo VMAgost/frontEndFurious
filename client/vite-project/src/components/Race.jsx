@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Race = () => {
-  const trackLength = 1200;
+  const [trackLength, setTrackLength] = useState(1200)
   const [opponentCars, setOpponentCars] = useState(null);
   const [userCars, setUserCars] = useState(null);
   const [raceResult, setRaceResult] = useState('');
@@ -14,12 +14,56 @@ const Race = () => {
   const [opponentWins, setOpponentWins] = useState(0);
   const [view, setView] = useState(true);
 
-  useEffect(() => {
-    fetch('http://localhost:4000/api/cars')
+  const fetchLowCars = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/cars/low')
+      const lowCarsData = await response.json()
+      setAllCars(lowCarsData)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const fetchMidCars = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/cars/mid')
+      const lowCarsData = await response.json()
+      setAllCars(lowCarsData)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const fetchSuperCars = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/cars/super')
+      const lowCarsData = await response.json()
+      setAllCars(lowCarsData)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleLowCarsClick = () => {
+    fetchLowCars();
+  }
+
+  const handleMidCarsClick = () => {
+    fetchMidCars()
+  }
+
+  const handleSuperCarsClick = () => {
+    fetchSuperCars()
+  }
+
+ /*  useEffect(() => {
+    fetchLowCars()
+    fetchMidCars()
+    fetchSuperCars()
       .then((res) => res.json())
       .then((data) => setAllCars(data))
       .catch((err) => console.error('Error: ', err));
-  }, []);
+  }, []); */
 
   useEffect(() => {
     if (allCars.length > 0) {
@@ -37,7 +81,7 @@ const Race = () => {
       return;
     }
 
-    if (raceCount < allCars.length / 2) {
+    if (raceCount < allCars.length / 2 && allCars.length % 2 === 0) {
       const opponentCar = opponentCars[randomOppIndex];
       const userCar = userCars[randomUserIndex];
 
@@ -104,15 +148,30 @@ const Race = () => {
   return (
     <div>
       <img className="toretto" src="./toretto.png" /><p></p>
-      {/* {view === true &&
-        <>
-          <div className="race-button">
-            <button onClick={() => raceCars()} disabled={raceCount >= allCars.length / 2 + 1}>
-              {result}
-            </button>
-          </div>
-        </>
-      } */}
+      <button onClick={handleLowCarsClick}>Low Cars</button>
+      <button onClick={handleMidCarsClick}>Mid Cars</button>
+      <button onClick={handleSuperCarsClick}>Super Cars</button>
+
+      {userCars && opponentCars && (
+        <div className="card-container">
+          {userCars.map((userCar, index) => (
+            <div className="card-row" key={index}>
+              <div className="user-cards">
+                <img src={userCar.image} alt="playercard" className="card-img" />
+              </div>
+            </div>
+          ))}
+          {opponentCars.map((opponenCar, index) => (
+            <div className="card-row" key={index}>
+              <div className="opponent-cards">
+                <img src="../aicard.png" alt="aicard" className="card-img" />
+              </div>
+            </div>
+          ))}
+
+        </div>
+      )}
+
       <div className='race'>
         {view === true &&
           <button onClick={() => raceCars()} disabled={raceCount >= allCars.length / 2 + 1}>
