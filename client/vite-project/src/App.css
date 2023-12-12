@@ -128,6 +128,7 @@ img {
   height: 300px;
   max-width: 500px;
   object-fit: cover;
+}
 
 .audio-player-container {
   display: none;
