@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import MyLifeBeLike from '../music/My_life_be_like.mp3';
 
 const Garage = () => {
   const [allCars, setAllCars] = useState([]);
@@ -112,6 +113,7 @@ const Garage = () => {
     <div>
       <Link to={'/race'}>
         <button>Race</button>
+        </Link>
       <div>
       <div className="audio-player-container">
         <audio controls autoPlay className="audio-player">
