@@ -103,6 +103,13 @@ body {
   margin-top: -300px;
 }
 
+.audio-player-container {
+  display: none;
+}
+
+.audio-player {
+  visibility: hidden;
+}
 
 
 
