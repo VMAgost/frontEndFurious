@@ -15,6 +15,7 @@ const Race = () => {
   const [opponentWins, setOpponentWins] = useState(0);
   const [view, setView] = useState(true);
   const [raceView, setRaceView] = useState(true);
+  const [selectView, setSelectView] = useState('default')
 
   const fetchLowCars = async () => {
     try {
@@ -48,15 +49,34 @@ const Race = () => {
 
   const handleLowCarsClick = () => {
     fetchLowCars();
-  };
+    setSelectView('race')
+  }
 
   const handleMidCarsClick = () => {
-    fetchMidCars();
-  };
+    fetchMidCars()
+    setSelectView('race')
+  }
 
   const handleSuperCarsClick = () => {
-    fetchSuperCars();
-  };
+    fetchSuperCars()
+    setSelectView('race')
+  }
+
+  const handleShortTrackButton = () => {
+    setTrackLength(400)
+    setSelectView('getcars')
+  }
+
+  const handleMidTrackButton = () => {
+    setTrackLength(800)
+    setSelectView('getcars')
+  }
+
+  const handleLongTrackButton = () => {
+    setTrackLength(1200)
+    setSelectView('getcars')
+  }
+
 
   /*  useEffect(() => {
     fetchLowCars()
@@ -190,75 +210,85 @@ const Race = () => {
         </audio>
       </div>
       <img className="toretto" src="./toretto.png" />
+        {selectView === 'default' &&
+          <div className="choose-track">
+            <button onClick={handleShortTrackButton}>400 m distance</button>
+            <button onClick={handleMidTrackButton}>800 m distance</button>
+            <button onClick={handleLongTrackButton}>1200 m distance</button>
+          </div>}
       <p></p>
+      {selectView === 'getcars' &&
+      <div className="select-cars">
       <button onClick={handleLowCarsClick}>Low Cars</button>
       <button onClick={handleMidCarsClick}>Mid Cars</button>
       <button onClick={handleSuperCarsClick}>Super Cars</button>
-      {raceView === true && (
-<div>
-      {userCars && opponentCars && (
-        <div className="card-container">
-          {userCars.map((userCar, index) => (
-            <div className="card" key={index}>
-              <div className="img-container">
-                <img
-                  className="garage-cars"
-                  src={userCar.image}
-                  alt={`${userCar.manufacturer} ${userCar.model}`}
-                />
-              </div>
-              <div className="car-attributes">
-                Manufacturer: <p>{userCar.manufacturer}</p>
-              </div>
-              <div className="car-attributes">
-                Model: <p>{userCar.model}</p>
-              </div>
-              <div className="car-attributes">
-                Top Speed: <p>{userCar.top_speed}</p>
-              </div>
-              <div className="car-attributes">
-                Acceleration to Top Speed: <p>{userCar.acceleration}</p>
-              </div>
-              <div className="car-attributes">
-                Horsepower: <p>{userCar.horsepower}</p>
-              </div>
-            </div>
-          ))}
-          {opponentCars.map((opponenCar, index) => (
-            <div className="card" key={index}>
-              <div className="img-container">
-                <img
-                  className="garage-cars"
-                  src={opponenCar.image}
-                  alt={`${opponenCar.manufacturer} ${opponenCar.model}`}
-                />
-              </div>
-              <div className="car-attributes">
-                Manufacturer: <p>{opponenCar.manufacturer}</p>
-              </div>
-              <div className="car-attributes">
-                Model: <p>{opponenCar.model}</p>
-              </div>
-              <div className="car-attributes">
-                Top Speed: <p>{opponenCar.top_speed}</p>
-              </div>
-              <div className="car-attributes">
-                Acceleration to Top Speed: <p>{opponenCar.acceleration}</p>
-              </div>
-              <div className="car-attributes">
-                Horsepower: <p>{opponenCar.horsepower}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
       </div>
+      }
+      {raceView === true && selectView === 'race' &&(
+        <div>
+          {userCars && opponentCars && (
+            <div className="card-container">
+              {userCars.map((userCar, index) => (
+                <div className="card" key={index}>
+                  <div className="img-container">
+                    <img
+                      className="garage-cars"
+                      src={userCar.image}
+                      alt={`${userCar.manufacturer} ${userCar.model}`}
+                    />
+                  </div>
+                  <div className="car-attributes">
+                    Manufacturer: <p>{userCar.manufacturer}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Model: <p>{userCar.model}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Top Speed: <p>{userCar.top_speed}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Acceleration to Top Speed: <p>{userCar.acceleration}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Horsepower: <p>{userCar.horsepower}</p>
+                  </div>
+                </div>
+              ))}
+              {opponentCars.map((opponenCar, index) => (
+                <div className="card" key={index}>
+                  <div className="img-container">
+                    <img
+                      className="garage-cars"
+                      src={opponenCar.image}
+                      alt={`${opponenCar.manufacturer} ${opponenCar.model}`}
+                    />
+                  </div>
+                  <div className="car-attributes">
+                    Manufacturer: <p>{opponenCar.manufacturer}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Model: <p>{opponenCar.model}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Top Speed: <p>{opponenCar.top_speed}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Acceleration to Top Speed: <p>{opponenCar.acceleration}</p>
+                  </div>
+                  <div className="car-attributes">
+                    Horsepower: <p>{opponenCar.horsepower}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       <div className="race">
         {view === true && (
           <button
-            onClick={() => {raceCars(), setRaceView(false)}}
+            onClick={() => { raceCars(), setRaceView(false) }}
             disabled={raceCount >= allCars.length / 2 + 1}
           >
             {result}
