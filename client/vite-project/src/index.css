@@ -287,6 +287,7 @@ button:focus-visible {
 .race h1,
 .race p {
   color: #ff9900;
+  text-shadow: 5px 4px 7px black;
 }
 
 .carPhoto {
@@ -297,4 +298,3 @@ button:focus-visible {
   position: absolute;
   left: 140vh;
 }
-

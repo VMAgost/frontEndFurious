@@ -100,11 +100,18 @@ const Garage = () => {
 
   const handleDeleteCar = async (carId) => {
     try {
-      await fetch(`http://localhost:4000/api/cars/${carId}`, {
-        method: 'DELETE',
-      });
+
+      const isConfirmed = window.confirm(
+        'Are you sure you want to delete this car?'
+      );
+
+      if (isConfirmed){
+        await fetch(`http://localhost:4000/api/cars/${carId}`, {
+          method: 'DELETE',
+        });
 
       setAllCars((prevCars) => prevCars.filter((car) => car._id !== carId));
+      }
     } catch (error) {
       console.error('Error deleting car:', error);
     }
@@ -341,6 +348,7 @@ const Garage = () => {
                   />
                 </div>
                 <button onClick={() => handleSaveChanges(car._id)}>Save</button>
+                <button onClick={() => setEditCarId(null)}>Cancel</button>
               </>
             ) : (
               <>
