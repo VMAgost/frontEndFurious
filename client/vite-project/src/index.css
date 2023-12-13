@@ -85,10 +85,6 @@ button:focus-visible {
   /* margin-top: -200px; */
 }
 
-.whats-this {
-  /* display: flex; */
-  /* border: 2px solid green; */
-}
 .allcars {
   display: flex;
   gap: 20px;
@@ -292,9 +288,18 @@ button:focus-visible {
 
 .carPhoto {
   margin-top: 10px;
-  border: 3px solid gold;
+  margin-left: 17vh;
 }
+
+ .userPhoto {
+  margin-top: 10px;
+  margin-left: -70vh;
+} 
 .addnewcar-btn {
   position: absolute;
   left: 140vh;
+}
+.start {
+  position: absolute;
+  margin-top: 38vh;
 }

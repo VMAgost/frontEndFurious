@@ -16,6 +16,7 @@ const Race = () => {
   const [view, setView] = useState(true);
   const [raceView, setRaceView] = useState(true);
   const [selectView, setSelectView] = useState('default')
+  const [startView, setStartView] = useState(false);
 
   const fetchLowCars = async () => {
     try {
@@ -112,10 +113,10 @@ const Race = () => {
       const randomAcceleration =
         (userCar.top_speed * 1000) / 3600 / userCar.acceleration;
 
-      const timeToFinishAICar = Math.sqrt((2 * trackLength) / aiAcceleration);
-      const timeToFinishRandomCar = Math.sqrt(
+      const timeToFinishAICar = Math.round(Math.sqrt((2 * trackLength) / aiAcceleration));
+      const timeToFinishRandomCar = Math.round(Math.sqrt(
         (2 * trackLength) / randomAcceleration
-      );
+      ));
 
       if (timeToFinishAICar > timeToFinishRandomCar) {
         setRandomOppIndex((prev) => prev + 1);
@@ -219,9 +220,9 @@ const Race = () => {
       <p></p>
       {selectView === 'getcars' &&
       <div className="select-cars">
-      <button onClick={handleLowCarsClick}>Low Cars</button>
-      <button onClick={handleMidCarsClick}>Mid Cars</button>
-      <button onClick={handleSuperCarsClick}>Super Cars</button>
+      <button onClick={() => {handleLowCarsClick(), setStartView(true)}}>Low Cars</button>
+      <button onClick={() => {handleMidCarsClick(), setStartView(true)}}>Mid Cars</button>
+      <button onClick={() => {handleSuperCarsClick(), setStartView(true)}}>Super Cars</button>
       </div>
       }
       {raceView === true && selectView === 'race' &&(
@@ -286,14 +287,21 @@ const Race = () => {
       )}
 
       <div className="race">
-        {view === true && (
-          <button
-            onClick={() => { raceCars(), setRaceView(false) }}
-            disabled={raceCount >= allCars.length / 2 + 1}
-          >
-            {result}
-          </button>
-        )}
+      {startView === true && (
+  <button className="start"
+    onClick={() => {
+      raceCars();
+      setRaceView(false);
+
+      if (raceCount >= allCars.length / 2) {
+        setStartView(false);
+      }
+    }}
+  >
+    {result}
+  </button>
+)}
+
         <div>{raceResult}</div>
         {view === false && (
           <>
