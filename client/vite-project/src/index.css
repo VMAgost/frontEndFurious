@@ -41,6 +41,7 @@ body {
   background-size: cover;
   font-family: 'Roboto';
   font-weight: 500;
+  z-index: -2;
 }
 
 h1 {
@@ -259,7 +260,9 @@ button:focus-visible {
   /* align-self: center; */
   position: absolute;
   z-index: -1;
-  top: 430px;
+  top: 335px;
+  scale: 1.5;
+  margin-left: -42px;
 }
 
 .warmup-container button {

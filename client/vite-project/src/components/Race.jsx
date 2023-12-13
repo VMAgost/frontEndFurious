@@ -19,6 +19,7 @@ const Race = () => {
   const [raceView, setRaceView] = useState(true);
   const [selectView, setSelectView] = useState('default');
   const [startView, setStartView] = useState(false);
+  const [torettoView, setTorettoView] = useState(false);
 
   const goHardAudioRef = useRef(null);
   const winningAudioRef = useRef(null);
@@ -239,22 +240,41 @@ const Race = () => {
           Your browser does not support the audio element.
         </audio>
       </div>
-      <img className="toretto" src="./toretto.png" />
-      {selectView === 'default' &&
+      {torettoView === true && <img className="toretto" src="./toretto.png" />}
+      {selectView === 'default' && (
         <div className="choose-track">
           <button onClick={handleShortTrackButton}>400 m distance</button>
           <button onClick={handleMidTrackButton}>800 m distance</button>
           <button onClick={handleLongTrackButton}>1200 m distance</button>
-        </div>}
-      <p></p>
-      {selectView === 'getcars' &&
-        <div className="select-cars">
-          <button onClick={() => {handleLowCarsClick(), setStartView(true)}}>Low Cars</button>
-          <button onClick={() => {handleMidCarsClick(), setStartView(true)}}>Mid Cars</button>
-          <button onClick={() => {handleSuperCarsClick(), setStartView(true)}}>Super Cars</button>
         </div>
-      }
-      {raceView === true && selectView === 'race' &&(
+      )}
+      <p></p>
+      {selectView === 'getcars' && (
+        <div className="select-cars">
+          <button
+            onClick={() => {
+              handleLowCarsClick(), setStartView(true);
+            }}
+          >
+            Low Cars
+          </button>
+          <button
+            onClick={() => {
+              handleMidCarsClick(), setStartView(true);
+            }}
+          >
+            Mid Cars
+          </button>
+          <button
+            onClick={() => {
+              handleSuperCarsClick(), setStartView(true);
+            }}
+          >
+            Super Cars
+          </button>
+        </div>
+      )}
+      {raceView === true && selectView === 'race' && (
         <div>
           {userCars && opponentCars && (
             <div className="card-container">
@@ -317,13 +337,16 @@ const Race = () => {
 
       <div className="race">
         {startView === true && (
-          <button className="start"
+          <button
+            className="start"
             onClick={() => {
               raceCars();
               setRaceView(false);
-
+              setTorettoView(true);
+              
               if (raceCount >= allCars.length / 2) {
                 setStartView(false);
+                setTorettoView(false);
               }
             }}
           >
@@ -336,13 +359,13 @@ const Race = () => {
           <>
             <img className="flag" src="../ch_flag.png" alt="checkered-flag" />
             <p></p>
-            <Link to={"/garage"}>
+            <Link to={'/garage'}>
               <button>Garage</button>
             </Link>
           </>
         )}
         {view === false && (
-          <Link to={"/"}>
+          <Link to={'/'}>
             <button>Home</button>
           </Link>
         )}
