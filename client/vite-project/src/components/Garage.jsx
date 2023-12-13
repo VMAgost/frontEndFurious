@@ -216,7 +216,8 @@ const Garage = () => {
               }
             />
           </div>
-          <button onClick={handleAddCar}>✔</button>
+            
+          <button onClick={() => {handleAddCar(), setButtonView(true), setView(false)}}>✔</button>
           <button
             onClick={() => {
               setView(false);
