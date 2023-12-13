@@ -244,12 +244,6 @@ const Garage = () => {
                         manufacturer: e.target.value,
                       })
                     }
-                    onChange={(e) =>
-                      setEditedCarData({
-                        ...editedCarData,
-                        manufacturer: e.target.value,
-                      })
-                    }
                   />
                 </div>
                 <div>
@@ -257,12 +251,6 @@ const Garage = () => {
                   <input
                     type="text"
                     value={editedCarData.model}
-                    onChange={(e) =>
-                      setEditedCarData({
-                        ...editedCarData,
-                        model: e.target.value,
-                      })
-                    }
                     onChange={(e) =>
                       setEditedCarData({
                         ...editedCarData,
@@ -282,12 +270,6 @@ const Garage = () => {
                         top_speed: Number(e.target.value),
                       })
                     }
-                    onChange={(e) =>
-                      setEditedCarData({
-                        ...editedCarData,
-                        top_speed: Number(e.target.value),
-                      })
-                    }
                   />
                 </div>
                 <div>
@@ -295,12 +277,6 @@ const Garage = () => {
                   <input
                     type="number"
                     value={editedCarData.acceleration}
-                    onChange={(e) =>
-                      setEditedCarData({
-                        ...editedCarData,
-                        acceleration: Number(e.target.value),
-                      })
-                    }
                     onChange={(e) =>
                       setEditedCarData({
                         ...editedCarData,
@@ -320,12 +296,6 @@ const Garage = () => {
                         horsepower: Number(e.target.value),
                       })
                     }
-                    onChange={(e) =>
-                      setEditedCarData({
-                        ...editedCarData,
-                        horsepower: Number(e.target.value),
-                      })
-                    }
                   />
                 </div>
                 <div>
@@ -333,12 +303,6 @@ const Garage = () => {
                   <input
                     type="text"
                     value={editedCarData.image}
-                    onChange={(e) =>
-                      setEditedCarData({
-                        ...editedCarData,
-                        image: e.target.value,
-                      })
-                    }
                     onChange={(e) =>
                       setEditedCarData({
                         ...editedCarData,
