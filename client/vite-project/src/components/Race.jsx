@@ -14,7 +14,7 @@ const Race = () => {
   const [userWins, setUserWins] = useState(0);
   const [opponentWins, setOpponentWins] = useState(0);
   const [view, setView] = useState(true);
-  const [raceView, setRaceView] = useState(false);
+  const [raceView, setRaceView] = useState(true);
 
   const fetchLowCars = async () => {
     try {
@@ -194,6 +194,8 @@ const Race = () => {
       <button onClick={handleLowCarsClick}>Low Cars</button>
       <button onClick={handleMidCarsClick}>Mid Cars</button>
       <button onClick={handleSuperCarsClick}>Super Cars</button>
+      {raceView === true && (
+<div>
       {userCars && opponentCars && (
         <div className="card-container">
           {userCars.map((userCar, index) => (
@@ -250,11 +252,13 @@ const Race = () => {
           ))}
         </div>
       )}
+      </div>
+      )}
 
       <div className="race">
         {view === true && (
           <button
-            onClick={() => raceCars()}
+            onClick={() => {raceCars(), setRaceView(false)}}
             disabled={raceCount >= allCars.length / 2 + 1}
           >
             {result}
@@ -263,7 +267,7 @@ const Race = () => {
         <div>{raceResult}</div>
         {view === false && (
           <>
-            <img src="../ch_flag.png" alt="checkered-flag" />
+            <img className="flag" src="../ch_flag.png" alt="checkered-flag" />
             <p></p>
             <Link to={"/garage"}>
               <button>Garage</button>

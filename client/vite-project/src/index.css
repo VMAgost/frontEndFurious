@@ -293,4 +293,8 @@ button:focus-visible {
   margin-top: 10px;
   border: 3px solid gold;
 }
+.addnewcar-btn {
+  position: absolute;
+  left: 140vh;
+}
 
