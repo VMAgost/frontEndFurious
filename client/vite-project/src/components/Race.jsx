@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import GoHardOrGoHome from "../music/Go_hard_or_go_home.mp3";
+import DudeIAlmostHadYou from "../music/Dude_I_almost_had_you.mp3";
+import WinningIsWinning from "../music/Winning_is_winning.mp3";
 
 const Race = () => {
   const [trackLength, setTrackLength] = useState(1200);
@@ -15,9 +17,13 @@ const Race = () => {
   const [opponentWins, setOpponentWins] = useState(0);
   const [view, setView] = useState(true);
   const [raceView, setRaceView] = useState(true);
-  const [selectView, setSelectView] = useState('default')
+  const [selectView, setSelectView] = useState('default');
   const [startView, setStartView] = useState(false);
   const [torettoView, setTorettoView] = useState(false);
+
+  const goHardAudioRef = useRef(null);
+  const winningAudioRef = useRef(null);
+  const dudeAudioRef = useRef(null);
 
   const fetchLowCars = async () => {
     try {
@@ -78,16 +84,6 @@ const Race = () => {
     setTrackLength(1200)
     setSelectView('getcars')
   }
-
-
-  /*  useEffect(() => {
-    fetchLowCars()
-    fetchMidCars()
-    fetchSuperCars()
-      .then((res) => res.json())
-      .then((data) => setAllCars(data))
-      .catch((err) => console.error('Error: ', err));
-  }, []); */
 
   useEffect(() => {
     if (allCars.length > 0) {
@@ -184,12 +180,37 @@ const Race = () => {
       if (userWins > opponentWins) {
         setRaceResult(<h1>User Won!</h1>);
         setView(false);
+
+        // Pause the default audio when the race is over
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
+
+        // Play the winning audio
+        if (winningAudioRef.current) {
+          winningAudioRef.current.play();
+        }
       } else if (opponentWins > userWins) {
         setRaceResult(<h1>Opponent Won!</h1>);
         setView(false);
+
+        // Pause the default audio when the race is over
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
+
+        // Play the losing audio
+        if (dudeAudioRef.current) {
+          dudeAudioRef.current.play();
+        }
       } else {
         setRaceResult(<h1>Its a Tie!</h1>);
         setView(false);
+
+        // Pause the default audio when the race is over
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
       }
     }
   }
@@ -206,8 +227,16 @@ const Race = () => {
   return (
     <div>
       <div className="audio-player-container">
-        <audio controls autoPlay className="audio-player">
+        <audio ref={goHardAudioRef} controls autoPlay className="audio-player">
           <source src={GoHardOrGoHome} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+        <audio ref={winningAudioRef} controls className="audio-player">
+          <source src={WinningIsWinning} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+        <audio ref={dudeAudioRef} controls className="audio-player">
+          <source src={DudeIAlmostHadYou} type="audio/mp3" />
           Your browser does not support the audio element.
         </audio>
       </div>
