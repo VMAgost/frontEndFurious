@@ -120,7 +120,10 @@ button:focus-visible {
   box-shadow: 2px 5px 5px 0px #00000059;
 }
 .card-container {
+  position: absolute;
   flex-wrap: nowrap;
+  margin-top: 170px;
+  margin-left: -32px;
 }
 .img-container {
   display: flex;
@@ -288,12 +291,12 @@ button:focus-visible {
 
 .carPhoto {
   margin-top: 10px;
-  margin-left: 17vh;
+  margin-left: 25vh;
 }
 
  .userPhoto {
   margin-top: 10px;
-  margin-left: -70vh;
+  margin-left: -90vh;
 } 
 .addnewcar-btn {
   position: absolute;
