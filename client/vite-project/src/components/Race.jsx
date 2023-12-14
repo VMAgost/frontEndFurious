@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import GoHardOrGoHome from "../music/Go_hard_or_go_home.mp3";
+import DudeIAlmostHadYou from "../music/Dude_I_almost_had_you.mp3";
+import WinningIsWinning from "../music/Winning_is_winning.mp3";
 
 const Race = () => {  
   const [trackLength, setTrackLength] = useState(1200);
@@ -52,6 +54,11 @@ const Race = () => {
         console.log(error);
       }
     }
+  const [torettoView, setTorettoView] = useState(false);
+
+  const goHardAudioRef = useRef(null);
+  const winningAudioRef = useRef(null);
+  const dudeAudioRef = useRef(null);
 
   const fetchLowCars = async () => {
     try {
@@ -112,16 +119,6 @@ const Race = () => {
     setTrackLength(1200)
     setSelectView('getcars')
   }
-
-
-  /*  useEffect(() => {
-    fetchLowCars()
-    fetchMidCars()
-    fetchSuperCars()
-      .then((res) => res.json())
-      .then((data) => setAllCars(data))
-      .catch((err) => console.error('Error: ', err));
-  }, []); */
 
   useEffect(() => {
     if (allCars.length > 0) {
@@ -223,12 +220,37 @@ const Race = () => {
       if (userWins > opponentWins) {
         setRaceResult(<h1>User Won!</h1>);
         setView(false);
+
+        // Pause the default audio when the race is over
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
+
+        // Play the winning audio
+        if (winningAudioRef.current) {
+          winningAudioRef.current.play();
+        }
       } else if (opponentWins > userWins) {
         setRaceResult(<h1>Opponent Won!</h1>);
         setView(false);
+
+        // Pause the default audio when the race is over
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
+
+        // Play the losing audio
+        if (dudeAudioRef.current) {
+          dudeAudioRef.current.play();
+        }
       } else {
         setRaceResult(<h1>Its a Tie!</h1>);
         setView(false);
+
+        // Pause the default audio when the race is over
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
       }
     }
   }
@@ -247,27 +269,54 @@ const Race = () => {
   return (
     <div>
       <div className="audio-player-container">
-        <audio controls autoPlay className="audio-player">
+        <audio ref={goHardAudioRef} controls autoPlay className="audio-player">
           <source src={GoHardOrGoHome} type="audio/mp3" />
           Your browser does not support the audio element.
         </audio>
+        <audio ref={winningAudioRef} controls className="audio-player">
+          <source src={WinningIsWinning} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+        <audio ref={dudeAudioRef} controls className="audio-player">
+          <source src={DudeIAlmostHadYou} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
       </div>
-      <img className="toretto" src="./toretto.png" />
-        {selectView === 'default' &&
-          <div className="choose-track">
-            <button onClick={handleShortTrackButton}>400 m distance</button>
-            <button onClick={handleMidTrackButton}>800 m distance</button>
-            <button onClick={handleLongTrackButton}>1200 m distance</button>
-          </div>}
+      {torettoView === true && <img className="toretto" src="./toretto.png" />}
+      {selectView === 'default' && (
+        <div className="choose-track">
+          <button onClick={handleShortTrackButton}>400 m distance</button>
+          <button onClick={handleMidTrackButton}>800 m distance</button>
+          <button onClick={handleLongTrackButton}>1200 m distance</button>
+        </div>
+      )}
       <p></p>
-      {selectView === 'getcars' &&
-      <div className="select-cars">
-      <button onClick={() => {handleLowCarsClick(), setStartView(true)}}>Low Cars</button>
-      <button onClick={() => {handleMidCarsClick(), setStartView(true)}}>Mid Cars</button>
-      <button onClick={() => {handleSuperCarsClick(), setStartView(true)}}>Super Cars</button>
-      </div>
-      }
-      {raceView === true && selectView === 'race' &&(
+      {selectView === 'getcars' && (
+        <div className="select-cars">
+          <button
+            onClick={() => {
+              handleLowCarsClick(), setStartView(true);
+            }}
+          >
+            Low Cars
+          </button>
+          <button
+            onClick={() => {
+              handleMidCarsClick(), setStartView(true);
+            }}
+          >
+            Mid Cars
+          </button>
+          <button
+            onClick={() => {
+              handleSuperCarsClick(), setStartView(true);
+            }}
+          >
+            Super Cars
+          </button>
+        </div>
+      )}
+      {raceView === true && selectView === 'race' && (
         <div>
           {userCars && opponentCars && (
             <div className="card-container">
@@ -329,33 +378,36 @@ const Race = () => {
       )}
 
       <div className="race">
-      {startView === true && (
-  <button className="start"
-    onClick={() => {
-      raceCars();
-      setRaceView(false);
-
-      if (raceCount >= allCars.length / 2) {
-        setStartView(false);
-      }
-    }}
-  >
-    {result}
-  </button>
-)}
+        {startView === true && (
+          <button
+            className="start"
+            onClick={() => {
+              raceCars();
+              setRaceView(false);
+              setTorettoView(true);
+              
+              if (raceCount >= allCars.length / 2) {
+                setStartView(false);
+                setTorettoView(false);
+              }
+            }}
+          >
+            {result}
+          </button>
+        )}
 
         <div>{raceResult}</div>
         {view === false && (
           <>
             <img className="flag" src="../ch_flag.png" alt="checkered-flag" />
             <p></p>
-            <Link to={"/garage"}>
+            <Link to={'/garage'}>
               <button>Garage</button>
             </Link>
           </>
         )}
         {view === false && (
-          <Link to={"/"}>
+          <Link to={'/'}>
             <button>Home</button>
           </Link>
         )}
