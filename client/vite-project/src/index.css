@@ -15,6 +15,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.car{
+  color: #5393f2;
+  text-shadow: 2px 2px 2px black
+}
+
 a {
   font-weight: 500;
   color: #646cff;

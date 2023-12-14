@@ -6,7 +6,13 @@ POST http://localhost:4000/api/cars
 
 ###
 
-PATCH http://localhost:4000/api/cars/6566ff77679cee078b0e64cc
+PATCH http://localhost:4000/api/cars/6579b581d10bff0f620c932a
+Content-Type: application/json
+
+{
+  "wins": 0
+}
+
 
 ###
 
@@ -19,5 +25,8 @@ GET http://localhost:4000/api/cars/mid
 ###
 GET http://localhost:4000/api/drivers
 
+
+###
+GET http://localhost:4000/api/cars/65686a17d03223342bb87d73
 
 

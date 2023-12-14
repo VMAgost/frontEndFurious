@@ -19,6 +19,43 @@ const Race = () => {
   const [raceView, setRaceView] = useState(true);
   const [selectView, setSelectView] = useState('default');
   const [startView, setStartView] = useState(false);
+  const [winCount, setWinCount] = useState(0);
+
+  useEffect(() => {
+    const fetchOneCar = async (id) => {
+      try {
+        const response = await fetch(`http://localhost:4000/api/cars/${id}`);
+        const carData = await response.json();
+      
+        setWinCount(carData.wins || 0);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchOneCar();
+  }, []); 
+
+  const updateCarWin = async (id) => {
+    const updatedCar = {
+      wins: winCount
+    }
+    try {
+      const response = await fetch(`http://localhost:4000/api/cars/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedCar)
+      });
+      console.log(response);
+      if (response.ok) {
+        setWinCount((prev) => prev + 1)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const [torettoView, setTorettoView] = useState(false);
 
   const goHardAudioRef = useRef(null);
@@ -95,91 +132,15 @@ const Race = () => {
     }
   }, [allCars]);
 
-  function raceCars() {
-    if (!opponentCars || !userCars) {
-      console.log("Loading cars...");
-      return;
-    }
-
-    if (raceCount < allCars.length / 2 && allCars.length % 2 === 0) {
-      const opponentCar = opponentCars[randomOppIndex];
-      const userCar = userCars[randomUserIndex];
-
-      const aiAcceleration =
-        (opponentCar.top_speed * 1000) / 3600 / opponentCar.acceleration;
-      const randomAcceleration =
-        (userCar.top_speed * 1000) / 3600 / userCar.acceleration;
-
-      const timeToFinishAICar = Math.round(Math.sqrt((2 * trackLength) / aiAcceleration));
-      const timeToFinishRandomCar = Math.round(Math.sqrt(
-        (2 * trackLength) / randomAcceleration
-      ));
-
-      if (timeToFinishAICar > timeToFinishRandomCar) {
-        setRandomOppIndex((prev) => prev + 1);
-        setRandomUserIndex((prev) => prev + 1);
-        setUserWins((prev) => prev + 1);
-        setRaceResult(
-          <>
-            <h1>
-              Winner is Player: {userCar.manufacturer} {userCar.model}
-            </h1>
-            <p>Winner time is: {timeToFinishRandomCar}</p>
-            <div className="carpic">
-              <img
-                className="userPhoto"
-                src={userCar.image}
-                alt={userCar.manufacturer}
-              ></img>
-            </div>
-            <div className="carpic">
-              <img
-                className="carPhoto"
-                src={opponentCar.image}
-                alt={opponentCar.manufacturer}
-              ></img>
-            </div>
-          </>
-        );
-      } else if (timeToFinishAICar < timeToFinishRandomCar) {
-        setRandomOppIndex((prev) => prev + 1);
-        setRandomUserIndex((prev) => prev + 1);
-        setOpponentWins((prev) => prev + 1);
-        setRaceResult(
-          <>
-            <h1>
-              Winner is AI: {opponentCar.manufacturer} {opponentCar.model}
-            </h1>
-            <p>Winner time is: {timeToFinishAICar}</p>
-            <div className="carpic">
-              <img
-                className="carPhoto"
-                src={opponentCar.image}
-                alt={opponentCar.manufacturer}
-              ></img>
-            </div>
-            <div className="carpic">
-              <img
-                className="userPhoto"
-                src={userCar.image}
-                alt={userCar.manufacturer}
-              ></img>
-            </div>
-          </>
-        );
-      } else {
-        setRandomOppIndex((prev) => prev + 1);
-        setRandomUserIndex((prev) => prev + 1);
-        setOpponentWins((prev) => prev + 1);
-        setUserWins((prev) => prev + 1);
-        setRaceResult("Its a tie!");
+    function raceCars() {
+      if (!opponentCars || !userCars) {
+        console.log("Loading cars...");
+        return;
       }
 
-      setRaceCount((prev) => prev + 1);
-    } else {
-      if (userWins > opponentWins) {
-        setRaceResult(<h1>User Won!</h1>);
-        setView(false);
+      if (raceCount < allCars.length / 2 && allCars.length % 2 === 0) {
+        const opponentCar = opponentCars[randomOppIndex];
+        const userCar = userCars[randomUserIndex];
 
         if (goHardAudioRef.current) {
           goHardAudioRef.current.pause();
@@ -199,24 +160,133 @@ const Race = () => {
         if (dudeAudioRef.current) {
           dudeAudioRef.current.play();
         }
+
+        const aiAcceleration =
+          (opponentCar.top_speed * 1000) / 3600 / opponentCar.acceleration;
+        const randomAcceleration =
+          (userCar.top_speed * 1000) / 3600 / userCar.acceleration;
+
+        const timeToFinishAICar = Math.round(Math.sqrt((2 * trackLength) / aiAcceleration));
+        const timeToFinishRandomCar = Math.round(Math.sqrt(
+          (2 * trackLength) / randomAcceleration
+        ));
+
+        if (timeToFinishAICar > timeToFinishRandomCar) {
+          console.log(userCar._id);
+          console.log(winCount);
+          updateCarWin(userCar._id)
+          setRandomOppIndex((prev) => prev + 1);
+          setRandomUserIndex((prev) => prev + 1);
+          setUserWins((prev) => prev + 1);
+          setRaceResult(
+            <>
+              <h1>
+                Winner is Player: {userCar.manufacturer} {userCar.model}
+              </h1>
+              <p>Winner time is: {timeToFinishRandomCar}</p>
+              <div className="carpic">
+                <img
+                  className="userPhoto"
+                  src={userCar.image}
+                  alt={userCar.manufacturer}
+                ></img>
+              </div>
+              <div className="carpic">
+                <img
+                  className="carPhoto"
+                  src={opponentCar.image}
+                  alt={opponentCar.manufacturer}
+                ></img>
+              </div>
+            </>
+          );
+        } else if (timeToFinishAICar < timeToFinishRandomCar) {
+          console.log(opponentCar._id);
+          updateCarWin(opponentCar._id)
+          setRandomOppIndex((prev) => prev + 1);
+          setRandomUserIndex((prev) => prev + 1);
+          setOpponentWins((prev) => prev + 1);
+          setRaceResult(
+            <>
+              <h1>
+                Winner is AI: {opponentCar.manufacturer} {opponentCar.model}
+              </h1>
+              <p>Winner time is: {timeToFinishAICar}</p>
+              <div className="carpic">
+                <img
+                  className="carPhoto"
+                  src={opponentCar.image}
+                  alt={opponentCar.manufacturer}
+                ></img>
+              </div>
+              <div className="carpic">
+                <img
+                  className="userPhoto"
+                  src={userCar.image}
+                  alt={userCar.manufacturer}
+                ></img>
+              </div>
+            </>
+          );
+        } else {
+          setRandomOppIndex((prev) => prev + 1);
+          setRandomUserIndex((prev) => prev + 1);
+          setOpponentWins((prev) => prev + 1);
+          setUserWins((prev) => prev + 1);
+          setRaceResult("Its a tie!");
+        }
+
+        setRaceCount((prev) => prev + 1);
+
       } else {
-        setRaceResult(<h1>Its a Tie!</h1>);
-        setView(false);
+        if (userWins > opponentWins) {
+          setRaceResult(<h1>User Won!</h1>);
+          setView(false);
 
         if (goHardAudioRef.current) {
           goHardAudioRef.current.pause();
+          if (goHardAudioRef.current) {
+            goHardAudioRef.current.pause();
+          }
+
+          // Play the winning audio
+          if (winningAudioRef.current) {
+            winningAudioRef.current.play();
+          }
+        } else if (opponentWins > userWins) {
+          setRaceResult(<h1>Opponent Won!</h1>);
+          setView(false);
+
+          // Pause the default audio when the race is over
+          if (goHardAudioRef.current) {
+            goHardAudioRef.current.pause();
+          }
+
+          // Play the losing audio
+          if (dudeAudioRef.current) {
+            dudeAudioRef.current.play();
+          }
+        } else {
+          setRaceResult(<h1>Its a Tie!</h1>);
+          setView(false);
+
+          // Pause the default audio when the race is over
+          if (goHardAudioRef.current) {
+            goHardAudioRef.current.pause();
+          }
         }
       }
     }
-  }
 
   let result = "";
   if (raceCount === 0) {
     result = "Start";
   } else if (raceCount === allCars.length / 2) {
+
     result = "And the winner is...";
   } else {
     result = `Round: ${raceCount}`;
+
   }
 
   return (
@@ -338,7 +408,7 @@ const Race = () => {
               raceCars();
               setRaceView(false);
               setTorettoView(true);
-              
+
               if (raceCount >= allCars.length / 2) {
                 setStartView(false);
                 setTorettoView(false);

@@ -14,6 +14,7 @@ function App() {
        
       <div className="garage-button">
         <Link to={'/garage'}><button>Garage</button></Link>
+        <Link to={'/leaderboard'}><button>Leaderboard</button></Link>
       </div>
 
     </>
