@@ -77,7 +77,7 @@ app.get('/api/cars/:id', async (req, res) => {
 
 app.get('/api/cars', async (req, res) => {
   try {
-    const cars = await Car.find().sort({wins: 'desc'});
+    const cars = await Car.find().sort({top_speed: 'desc'});
     res.json(cars)
   } catch (err) {
     console.log(err);
