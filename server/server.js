@@ -18,7 +18,7 @@ app.get('/api/drivers', async (req, res) => {
     console.log(error);
     res.status(500).json('Internal server error')
   }
-})
+});
 
 app.get('/api/cars/low', async (req, res) => {
   try {
@@ -26,7 +26,7 @@ app.get('/api/cars/low', async (req, res) => {
       top_speed: {
         $lt: 150
       }
-    })
+    }).populate('driver')
     return res.json(cars)
   } catch (error) {
     console.log(error);
@@ -77,7 +77,7 @@ app.get('/api/cars/:id', async (req, res) => {
 
 app.get('/api/cars', async (req, res) => {
   try {
-    const cars = await Car.find();
+    const cars = await Car.find().sort({wins: 'desc'});
     res.json(cars)
   } catch (err) {
     console.log(err);
