@@ -142,6 +142,25 @@ const Race = () => {
         const opponentCar = opponentCars[randomOppIndex];
         const userCar = userCars[randomUserIndex];
 
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
+
+        if (winningAudioRef.current) {
+          winningAudioRef.current.play();
+        }
+      } else if (opponentWins > userWins) {
+        setRaceResult(<h1>Opponent Won!</h1>);
+        setView(false);
+
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
+        }
+
+        if (dudeAudioRef.current) {
+          dudeAudioRef.current.play();
+        }
+
         const aiAcceleration =
           (opponentCar.top_speed * 1000) / 3600 / opponentCar.acceleration;
         const randomAcceleration =
@@ -218,12 +237,14 @@ const Race = () => {
         }
 
         setRaceCount((prev) => prev + 1);
+
       } else {
         if (userWins > opponentWins) {
           setRaceResult(<h1>User Won!</h1>);
           setView(false);
 
-          // Pause the default audio when the race is over
+        if (goHardAudioRef.current) {
+          goHardAudioRef.current.pause();
           if (goHardAudioRef.current) {
             goHardAudioRef.current.pause();
           }

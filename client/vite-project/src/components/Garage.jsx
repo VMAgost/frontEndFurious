@@ -33,6 +33,18 @@ const Garage = () => {
   }, []);
 
   const handleAddCar = async () => {
+    if (
+      !newCarData.manufacturer ||
+      !newCarData.model ||
+      newCarData.top_speed === 0 ||
+      newCarData.acceleration === 0 ||
+      newCarData.horsepower === 0 ||
+      !newCarData.image
+    ) {
+      alert('Please fill in all the input fields');
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:4000/api/cars', {
         method: 'POST',
