@@ -4,7 +4,7 @@ import GoHardOrGoHome from "../music/Go_hard_or_go_home.mp3";
 import DudeIAlmostHadYou from "../music/Dude_I_almost_had_you.mp3";
 import WinningIsWinning from "../music/Winning_is_winning.mp3";
 
-const Race = () => {
+const Race = () => {  
   const [trackLength, setTrackLength] = useState(1200);
   const [opponentCars, setOpponentCars] = useState(null);
   const [userCars, setUserCars] = useState(null);
@@ -19,6 +19,41 @@ const Race = () => {
   const [raceView, setRaceView] = useState(true);
   const [selectView, setSelectView] = useState('default');
   const [startView, setStartView] = useState(false);
+  const [winCount, setWinCount] = useState(0);
+
+  useEffect(() => {
+    const fetchOneCar = async (id) => {
+      try {
+        const response = await fetch(`/api/cars/${id}`)
+        const carData = await response.json();
+        return carData
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchOneCar()
+  }, [])
+
+  const updateCarWin = async (id) => {
+    const updatedCar = {
+      wins: winCount
+    }
+      try {
+        const response = await fetch(`/api/cars/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedCar)
+        });
+        if (response.ok) {
+          
+          setWinCount((prev) => prev + 1)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   const [torettoView, setTorettoView] = useState(false);
 
   const goHardAudioRef = useRef(null);
@@ -116,6 +151,9 @@ const Race = () => {
       ));
 
       if (timeToFinishAICar > timeToFinishRandomCar) {
+        console.log(userCar._id);
+        console.log(winCount);
+        updateCarWin(userCar._id)
         setRandomOppIndex((prev) => prev + 1);
         setRandomUserIndex((prev) => prev + 1);
         setUserWins((prev) => prev + 1);
@@ -142,6 +180,8 @@ const Race = () => {
           </>
         );
       } else if (timeToFinishAICar < timeToFinishRandomCar) {
+        console.log(opponentCar._id);
+        updateCarWin(opponentCar._id)
         setRandomOppIndex((prev) => prev + 1);
         setRandomUserIndex((prev) => prev + 1);
         setOpponentWins((prev) => prev + 1);
@@ -219,9 +259,11 @@ const Race = () => {
   if (raceCount === 0) {
     result = "Start";
   } else if (raceCount === allCars.length / 2) {
+    
     result = "And the winner is...";
   } else {
     result = `Round: ${raceCount}`;
+    
   }
 
   return (
