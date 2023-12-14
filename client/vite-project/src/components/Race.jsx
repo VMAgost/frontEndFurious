@@ -181,12 +181,10 @@ const Race = () => {
         setRaceResult(<h1>User Won!</h1>);
         setView(false);
 
-        // Pause the default audio when the race is over
         if (goHardAudioRef.current) {
           goHardAudioRef.current.pause();
         }
 
-        // Play the winning audio
         if (winningAudioRef.current) {
           winningAudioRef.current.play();
         }
@@ -194,12 +192,10 @@ const Race = () => {
         setRaceResult(<h1>Opponent Won!</h1>);
         setView(false);
 
-        // Pause the default audio when the race is over
         if (goHardAudioRef.current) {
           goHardAudioRef.current.pause();
         }
 
-        // Play the losing audio
         if (dudeAudioRef.current) {
           dudeAudioRef.current.play();
         }
@@ -207,7 +203,6 @@ const Race = () => {
         setRaceResult(<h1>Its a Tie!</h1>);
         setView(false);
 
-        // Pause the default audio when the race is over
         if (goHardAudioRef.current) {
           goHardAudioRef.current.pause();
         }
