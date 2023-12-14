@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Leaderboard = () => {
   const [cars, setCars] = useState(null);
@@ -19,6 +20,9 @@ const Leaderboard = () => {
   console.log(cars);
   return (
     <div className="leaderboard">
+      <Link to={'/'}>
+      <button className='stickybtn' type="button">FAMILY</button>
+      </Link>
       {cars &&
         cars.map((car) => (
           <div className="car" key={car._id}>

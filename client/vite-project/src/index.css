@@ -314,3 +314,8 @@ button:focus-visible {
   position: absolute;
   margin-top: 38vh;
 }
+.stickybtn {
+  position: sticky;
+  top: 80px;
+  margin-left: 320px;
+}
