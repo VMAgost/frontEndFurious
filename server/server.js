@@ -34,11 +34,12 @@ app.get('/api/cars/low', async (req, res) => {
   }
 });
 
+
 app.get('/api/cars/mid', async (req, res) => {
   try {
     const cars = await Car.find({
       top_speed: {
-        $gt: 150,
+        $gte: 150,
         $lt: 200
       }
     })
@@ -53,13 +54,24 @@ app.get('/api/cars/super', async (req, res) => {
   try {
     const cars = await Car.find({
       top_speed: {
-        $gt: 200
+        $gte: 200
       }
     })
     return res.json(cars)
   } catch (err) {
     console.log(err);
-    res.status(500).json({message: 'Internal server error'})
+    res.status(500).json({ message: 'Internal server error' })
+  }
+});
+
+app.get('/api/cars/:id', async (req, res) => {
+  const carId = req.params.id
+  try {
+    const car = await Car.findById(carId);
+    res.status(200).json(car)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json('Internal server error')
   }
 });
 
@@ -97,12 +109,7 @@ app.patch('/api/cars/:id', async (req, res) => {
       carId,
       {
         $set: {
-          manufacturer: req.body.manufacturer,
-          model: req.body.model,
-          top_speed: req.body.top_speed,
-          acceleration: req.body.acceleration,
-          horsepower: req.body.horsepower,
-          image: req.body.image
+         ...req.body
         }
       },
       { new: true }

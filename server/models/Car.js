@@ -27,6 +27,10 @@ const CarSchema = new Schema({
         type: String,
         require:true
     },
+    wins: {
+        type: Number,
+        default: 0
+    },
     driver: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Driver'
